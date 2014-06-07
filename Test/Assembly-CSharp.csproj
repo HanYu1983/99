@@ -47,6 +47,28 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Test.cs" />
+     <Compile Include="Assets\script\PureMVC\Core\Controller.cs" />
+     <Compile Include="Assets\script\PureMVC\Core\Model.cs" />
+     <Compile Include="Assets\script\PureMVC\Core\View.cs" />
+     <Compile Include="Assets\script\PureMVC\Interfaces\ICommand.cs" />
+     <Compile Include="Assets\script\PureMVC\Interfaces\IController.cs" />
+     <Compile Include="Assets\script\PureMVC\Interfaces\IFacade.cs" />
+     <Compile Include="Assets\script\PureMVC\Interfaces\IMediator.cs" />
+     <Compile Include="Assets\script\PureMVC\Interfaces\IModel.cs" />
+     <Compile Include="Assets\script\PureMVC\Interfaces\INotification.cs" />
+     <Compile Include="Assets\script\PureMVC\Interfaces\INotifier.cs" />
+     <Compile Include="Assets\script\PureMVC\Interfaces\IObserver.cs" />
+     <Compile Include="Assets\script\PureMVC\Interfaces\IProxy.cs" />
+     <Compile Include="Assets\script\PureMVC\Interfaces\IView.cs" />
+     <Compile Include="Assets\script\PureMVC\Patterns\Command\DelegateCommand.cs" />
+     <Compile Include="Assets\script\PureMVC\Patterns\Command\MacroCommand.cs" />
+     <Compile Include="Assets\script\PureMVC\Patterns\Command\SimpleCommand.cs" />
+     <Compile Include="Assets\script\PureMVC\Patterns\Facade\Facade.cs" />
+     <Compile Include="Assets\script\PureMVC\Patterns\Mediator\Mediator.cs" />
+     <Compile Include="Assets\script\PureMVC\Patterns\Observer\Notification.cs" />
+     <Compile Include="Assets\script\PureMVC\Patterns\Observer\Notifier.cs" />
+     <Compile Include="Assets\script\PureMVC\Patterns\Observer\Observer.cs" />
+     <Compile Include="Assets\script\PureMVC\Patterns\Proxy\Proxy.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
