@@ -46,8 +46,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ta\TestPage.cs" />
+     <Compile Include="Assets\ta\TouchConsumer.cs" />
+     <Compile Include="Assets\ta\TouchManager.cs" />
+     <Compile Include="Assets\ta\protocol\IMainPageDelegate.cs" />
      <Compile Include="Assets\tech\model\Model.cs" />
-     <Compile Include="Assets\tech\protocol\IMainPageDelegate.cs" />
      <Compile Include="Assets\tech\protocol\IModel.cs" />
      <Compile Include="Assets\tech\protocol\IModelDelegate.cs" />
      <Compile Include="Assets\tech\util\EventManager.cs" />
