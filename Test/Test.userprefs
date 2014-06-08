@@ -1,6 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/script/PureMVC/Patterns/Command/MacroCommand.cs">
+    <Files>
+      <File FileName="Assets/script/PureMVC/Core/Controller.cs" Line="242" Column="33" />
+      <File FileName="Assets/script/PureMVC/Core/View.cs" Line="329" Column="33" />
+      <File FileName="Assets/script/PureMVC/Core/Model.cs" Line="175" Column="33" />
+      <File FileName="Assets/script/PureMVC/Patterns/Facade/Facade.cs" Line="1" Column="1" />
+      <File FileName="Assets/script/PureMVC/Patterns/Command/MacroCommand.cs" Line="92" Column="18" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
