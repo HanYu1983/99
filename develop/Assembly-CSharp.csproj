@@ -54,6 +54,8 @@
      <Compile Include="Assets\tech\protocol\IModel.cs" />
      <Compile Include="Assets\tech\protocol\IModelDelegate.cs" />
      <Compile Include="Assets\tech\util\EventManager.cs" />
+     <Compile Include="Assets\tech\util\ReceiverMono.cs" />
+     <Compile Include="Assets\tech\util\SenderMono.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

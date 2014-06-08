@@ -2,20 +2,7 @@
 using System.Collections;
 using System.Linq;
 
-public class Model : MonoBehaviour, IModel, IMainPageDelegate, IEventSender {
-
-	DefaultEventSender _sender = new DefaultEventSender();
-
-	void Start(){
-		_sender.VerifyReceiverDelegate += HandleVerifyReceiverDelegate;
-		EventManager.Singleton.AddSender (this);
-		EventManager.Singleton.AddReceiver (this);
-	}
-
-	void OnDestroy(){
-		EventManager.Singleton.RemoveReceiver (this);
-		EventManager.Singleton.RemoveSender (this);
-	}
+public class Model : SenderMono, IModel, IMainPageDelegate {
 	
 	string _value = "default";
 	public string Value { 
@@ -27,7 +14,7 @@ public class Model : MonoBehaviour, IModel, IMainPageDelegate, IEventSender {
 	}
 	
 	void OnValueChanged(){
-		_sender.Receivers.ToList ().ForEach (obj => {
+		Sender.Receivers.ToList ().ForEach (obj => {
 			((IModelDelegate)obj).onValueChanged(this);
 		});
 	}
@@ -39,16 +26,8 @@ public class Model : MonoBehaviour, IModel, IMainPageDelegate, IEventSender {
 	public void OnPressY(object sender){
 		Value = "y0";
 	}
-
-	public void OnAddReceiver(object receiver){
-		_sender.OnAddReceiver (receiver);	
-	}
 	
-	public void OnRemoveReceiver(object receiver){
-		_sender.OnRemoveReceiver (receiver);
-	}
-	
-	bool HandleVerifyReceiverDelegate (object receiver){
+	protected override bool HandleVerifyReceiverDelegate (object receiver){
 		return typeof(IModelDelegate).IsAssignableFrom (receiver.GetType ());
 	}
 }
