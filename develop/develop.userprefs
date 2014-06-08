@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/tech/model/Model.cs">
+    <Files>
+      <File FileName="Assets/tech/protocol/IMainPageDelegate.cs" Line="7" Column="2" />
+      <File FileName="Assets/tech/model/Model.cs" Line="33" Column="3" />
+      <File FileName="Assets/tech/protocol/IModelDelegate.cs" Line="7" Column="2" />
+      <File FileName="Assets/tech/protocol/IModel.cs" Line="6" Column="28" />
+      <File FileName="Assets/tech/util/EventManager.cs" Line="54" Column="2" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
