@@ -1,13 +1,10 @@
 using UnityEngine;
 using System.Collections;
 using System.Linq;
-public class Controller : ReceiverMono, IMainPageDelegate, IPausePanelDelegate, IPlayPageDelegate, IRankPageDelegate, IResultPageDelegate
+public class Controller : ReceiverMono, IViewInject, IMainPageDelegate, IPausePanelDelegate, IPlayPageDelegate, IRankPageDelegate, IResultPageDelegate
 {
-	public GameObject viewGameObject;
-
-	IView view {
-		get{ return (IView)viewGameObject.GetComponent<InterfaceComponent> ().implementation; }
-	}
+	IView _view;
+	public IView view{ set { _view = value; } get { return _view; } }
 
 	public void onMainPageBtnStartClick(object sender){
 		view.closeTargetPage ( UI.MainPage );

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class View : MonoBehaviour, IView {
+public class View : SenderMono, IView {
 
 	public GameObject mainPagePrefab;
 	public GameObject playPagePrefab;
@@ -12,7 +12,8 @@ public class View : MonoBehaviour, IView {
 	Dictionary<UI, GameObject> pages = new Dictionary<UI, GameObject>();
 
 	// Use this for initialization
-	void Start () {
+	protected override void Start () {
+		base.Start ();
 		openTargetPage ( UI.MainPage );
 	}
 
@@ -41,5 +42,13 @@ public class View : MonoBehaviour, IView {
 		if (pages [pn] == null)	return;
 		Destroy ( pages [pn]);
 		pages.Remove (pn);
+	}
+
+	protected override bool HandleVerifyReceiverDelegate (object receiver){
+		bool isTarget = typeof(IViewInject).IsAssignableFrom (receiver.GetType ());
+		if (isTarget) {
+			((IViewInject)receiver).view = this;
+		}
+		return false;
 	}
 }
