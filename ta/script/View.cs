@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class View : MonoBehaviour {
+public class View : MonoBehaviour, IView {
 
 	public GameObject mainPagePrefab;
 	public GameObject playPagePrefab;
@@ -21,7 +21,7 @@ public class View : MonoBehaviour {
 	
 	}
 
-	void openTargetPage( string pn ){
+	public void openTargetPage( string pn ){
 		if (pages.ContainsKey(pn))	return;
 		GameObject p = null;
 		GameObject layer = null;
@@ -37,7 +37,7 @@ public class View : MonoBehaviour {
 		pages.Add (pn, p);
 	}
 
-	void closeTargetPage( string pn ){
+	public void closeTargetPage( string pn ){
 		if (pages [pn] == null)	return;
 		Destroy ( pages [pn]);
 		pages.Remove (pn);

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Linq;
 
-public class Model : SenderMono, IModel, IMainPageDelegate {
+public class Model : SenderMono, IModel {
 	
 	string _value = "default";
 	public string Value { 
