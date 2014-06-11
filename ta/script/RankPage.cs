@@ -1,23 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-public class RankPage : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+using System.Linq;
+public class RankPage : SenderMono {
 
 	void onTouchConsumerEventMouseDown( string en ){
 		switch( en ){
 		case "btn_quit":
-			SendMessageUpwards( "openTargetPage", "mainPage" );
-			SendMessageUpwards( "closeTargetPage", "rankPage" );break;
+			Sender.Receivers.ToList().ForEach( obj => {
+				((IRankPageDelegate)obj).onRankPageBtnQuitClick( this );
+			});
+			break;
 		}
+	}
+
+	protected override bool HandleVerifyReceiverDelegate (object receiver){
+		return typeof(IRankPageDelegate).IsAssignableFrom (receiver.GetType ());
 	}
 }

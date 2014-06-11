@@ -1,27 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-public class ResultPage : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
+using System.Linq;
+public class ResultPage : SenderMono {
 	void onTouchConsumerEventMouseDown( string en ){
-		SendMessageUpwards( "closeTargetPage", "resultPage" );
 		switch (en) {
 		case "btn_replay":
-			SendMessageUpwards( "openTargetPage", "playPage" );break;
+			Sender.Receivers.ToList().ForEach( obj => {
+				((IResultPageDelegate)obj).onResultPageBtnReplayClick( this );
+			});break;
 		case "btn_rank":
-			SendMessageUpwards( "openTargetPage", "rankPage" );break;
+			Sender.Receivers.ToList().ForEach( obj => {
+				((IResultPageDelegate)obj).onResultPageBtnRankClick( this );
+			});break;
 		case "btn_quit":
-			SendMessageUpwards( "openTargetPage", "mainPage" );break;
+			Sender.Receivers.ToList().ForEach( obj => {
+				((IResultPageDelegate)obj).onResultPageBtnQuitClick( this );
+			});break;
 		}
+	}
+
+	protected override bool HandleVerifyReceiverDelegate (object receiver){
+		return typeof(IResultPageDelegate).IsAssignableFrom (receiver.GetType ());
 	}
 }

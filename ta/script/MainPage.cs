@@ -7,17 +7,17 @@ public class MainPage : SenderMono {
 		switch (en) {
 			case "btn_start":
 			Sender.Receivers.ToList ().ForEach (obj => {
-				((IMainPageDelegate)obj).onBtnStartClick( this);
+				((IMainPageDelegate)obj).onMainPageBtnStartClick( this);
 			});
 			break;
 			case "btn_rank":
 			Sender.Receivers.ToList ().ForEach (obj => {
-				((IMainPageDelegate)obj).onBtnRankClick(this);
+				((IMainPageDelegate)obj).onMainPageBtnRankClick(this);
 			});
 			break;
 			case "btn_quit":
 			Sender.Receivers.ToList ().ForEach (obj => {
-				((IMainPageDelegate)obj).onBtnQuitClick(this);
+				((IMainPageDelegate)obj).onMainPageBtnQuitClick(this);
 			});
 			break;
 		}

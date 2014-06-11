@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-public class PlayPage : MonoBehaviour {
+using System.Linq;
+public class PlayPage : SenderMono {
 	
 	// Use this for initialization
-	void Start () {
+	protected override void Start () {
+		base.Start ();
 		StartCoroutine (delayAndPlay ());
 	}
 
 	IEnumerator delayAndPlay(){
 		yield return new WaitForSeconds (3);
-		SendMessageUpwards ("closeTargetPage", "playPage");
-		SendMessageUpwards ("openTargetPage", "resultPage");
+		Sender.Receivers.ToList().ForEach( obj => {
+			((IPlayPageDelegate)obj).onPlayPageBtnEnterClick( this );
+		});
 	}
 	
 	// Update is called once per frame
@@ -22,7 +24,15 @@ public class PlayPage : MonoBehaviour {
 	void onTouchConsumerEventMouseDown( string en ){
 		switch (en) {
 		case "btn_pause":
-			SendMessageUpwards( "openTargetPage", "pausePanel" );break;
+			Debug.Log ( "onTouchConsumerEventMouseDown" );
+			Sender.Receivers.ToList().ForEach( obj => {
+				((IPlayPageDelegate)obj).onPlayPageBtnPauseClick( this );
+			});
+			break;
 		}
+	}
+
+	protected override bool HandleVerifyReceiverDelegate (object receiver){
+		return typeof(IPlayPageDelegate).IsAssignableFrom (receiver.GetType ());
 	}
 }

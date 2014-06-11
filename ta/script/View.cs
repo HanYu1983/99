@@ -9,11 +9,11 @@ public class View : MonoBehaviour, IView {
 	public GameObject rankPagePrefab;
 	public GameObject pausePanelPrefab;
 
-	Dictionary<string, GameObject> pages = new Dictionary<string, GameObject>();
+	Dictionary<UI, GameObject> pages = new Dictionary<UI, GameObject>();
 
 	// Use this for initialization
 	void Start () {
-		openTargetPage ("mainPage");
+		openTargetPage ( UI.MainPage );
 	}
 
 	// Update is called once per frame
@@ -21,23 +21,23 @@ public class View : MonoBehaviour, IView {
 	
 	}
 
-	public void openTargetPage( string pn ){
+	public void openTargetPage( UI pn ){
 		if (pages.ContainsKey(pn))	return;
 		GameObject p = null;
 		GameObject layer = null;
 		switch (pn) {
-			case "mainPage":p = (GameObject)Instantiate( mainPagePrefab );layer = GameObject.Find( "pageLayer" ); break;
-			case "playPage":p = (GameObject)Instantiate( playPagePrefab );layer = GameObject.Find( "pageLayer" ); break;
-			case "resultPage":p = (GameObject)Instantiate( resultPagePrefab );layer = GameObject.Find( "pageLayer" ); break;
-			case "rankPage":p = (GameObject)Instantiate( rankPagePrefab );layer = GameObject.Find( "pageLayer" ); break;
-			case "pausePanel":p = (GameObject)Instantiate( pausePanelPrefab );layer = GameObject.Find( "panelLayer" ); break;
-			default: break;
+		case UI.MainPage:p = (GameObject)Instantiate( mainPagePrefab );layer = GameObject.Find( "pageLayer" ); break;
+		case UI.PlayPage:p = (GameObject)Instantiate( playPagePrefab );layer = GameObject.Find( "pageLayer" ); break;
+		case UI.ResultPage:p = (GameObject)Instantiate( resultPagePrefab );layer = GameObject.Find( "pageLayer" ); break;
+		case UI.RankPage:p = (GameObject)Instantiate( rankPagePrefab );layer = GameObject.Find( "pageLayer" ); break;
+		case UI.PausePanel:p = (GameObject)Instantiate( pausePanelPrefab );layer = GameObject.Find( "panelLayer" ); break;
+		default: break;
 		}
 		p.transform.parent = layer.transform;
 		pages.Add (pn, p);
 	}
 
-	public void closeTargetPage( string pn ){
+	public void closeTargetPage( UI pn ){
 		if (pages [pn] == null)	return;
 		Destroy ( pages [pn]);
 		pages.Remove (pn);

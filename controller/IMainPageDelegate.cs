@@ -2,7 +2,7 @@
 using System.Collections;
 
 public interface IMainPageDelegate{
-	void onBtnStartClick(object sender);
-	void onBtnRankClick(object sender);
-	void onBtnQuitClick(object sender);
+	void onMainPageBtnStartClick(object sender);
+	void onMainPageBtnRankClick(object sender);
+	void onMainPageBtnQuitClick(object sender);
 }
