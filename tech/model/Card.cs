@@ -11,5 +11,8 @@ public class Card : ICard
 		_type = type;
 		_id = id;
 	}
+	public override string ToString(){
+		return "Card(" + _type + "," +_id+ ")";
+	}
 }
 

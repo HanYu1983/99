@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Deck : ICard
+public class Deck : IDeck
 {
 	List<ICard> _cards;
 	
@@ -16,11 +16,12 @@ public class Deck : ICard
 		this.Shuffle ();
 	}
 
+	public List<ICard> Cards{ get { return _cards; } }
 	public bool IsEmpty { get{ return _cards.Count == 0; } }
 
 	public void Shuffle(){
 		_cards.Sort ((ICard left, ICard right) => {
-			return Random.Range(0,10)-5;
+			return 1;
 		});
 	}
 

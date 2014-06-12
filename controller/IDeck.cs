@@ -5,6 +5,7 @@ public interface IDeck
 {
 	bool IsEmpty{ get; }
 	void Shuffle();
+	List<ICard> Cards{ get; }
 	List<ICard> Peek(int amount);
 	void Draw(IDeckPlayer player);
 	void Push(IDeckPlayer player, ICard card);
