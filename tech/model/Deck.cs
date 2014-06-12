@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Deck : ICard
 {
@@ -18,11 +19,14 @@ public class Deck : ICard
 	public bool IsEmpty { get{ return _cards.Count == 0; } }
 
 	public void Shuffle(){
-
+		_cards.Sort ((ICard left, ICard right) => {
+			return Random.Range(0,10)-5;
+		});
 	}
 
 	public List<ICard> Peek(int amount){
-		return null;
+		int count = Mathf.Max (_cards.Count, amount);
+		return _cards.GetRange( _cards.Count-1-count, _cards.Count-1 );
 	}
 			
 	public void Draw(IDeckPlayer player){
