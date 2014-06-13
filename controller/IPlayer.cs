@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public interface IPlayer
+public interface IPlayer : IDeckPlayer
 {
-	void Draw(IDeck deck, int amount);
+
 }

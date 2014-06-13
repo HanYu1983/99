@@ -8,6 +8,7 @@ public class Card : ICard
 	int _id;
 	public CardType Type { get{ return _type; }}
 	public int Id { get{ return _id; }}
+	public int Number { get { return _number; } }	
 	public Card(CardType type, int number, int id){
 		_type = type;
 		_id = id;
