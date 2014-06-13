@@ -9,5 +9,6 @@ public class PrefabSource
 	public static GameObject ResultPage = Resources.LoadAssetAtPath<GameObject> ( "Assets/gitAssets/ta/prefab/ResultPage.prefab" ) ;
 	public static GameObject PausePanel = Resources.LoadAssetAtPath<GameObject> ( "Assets/gitAssets/ta/prefab/PausePanel.prefab" ) ;
 	public static GameObject Card = Resources.LoadAssetAtPath<GameObject> ( "Assets/gitAssets/ta/prefab/sub/Card.prefab" ) ;
+	public static GameObject Hand = Resources.LoadAssetAtPath<GameObject> ( "Assets/gitAssets/ta/prefab/sub/Hand.prefab" ) ;
 }
 

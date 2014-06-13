@@ -7,7 +7,7 @@ public class View : SenderMono, IView {
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
-		openTargetPage ( UIType.MainPage );
+		openTargetPage ( UIType.PlayPage );
 	}
 
 	// Update is called once per frame

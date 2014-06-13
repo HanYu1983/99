@@ -3,13 +3,16 @@ using System.Collections;
 using System.Linq;
 public class PlayPage : SenderMono {
 
+	GameObject hand;
+	GameObject container_hand;
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
-		GameObject cardParent = GameObject.Find ("HandView");
-		GameObject c = (GameObject)Instantiate (PrefabSource.Card, cardParent.transform.position, cardParent.transform.rotation);
-		c.transform.parent = GameObject.Find ("HandView").transform;
-		//c.transform.Translate (new Vector3 (1, 0));
+
+		container_hand = GameObject.Find ("container_hand");
+		hand = (GameObject)Instantiate (PrefabSource.Hand, container_hand.transform.position, container_hand.transform.rotation);
+		hand.transform.parent = container_hand.transform;
+
 		//StartCoroutine (delayAndPlay ());
 	}
 	/*

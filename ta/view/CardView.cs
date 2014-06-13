@@ -4,9 +4,20 @@ using System.Collections;
 public class CardView : MonoBehaviour {
 
 	TextMesh _txt_name;
+	CardType _type;
+	int _id;
+	public CardType Type { get{ return _type; }}
+	public int Id { get{ return _id; }}
+
+	public void init( CardType type, int id){
+		_txt_name = GetComponentInChildren<TextMesh> ();
+		_type = type;
+		_id = id;
+		setCard (_type, _id);
+	}
 	// Use this for initialization
 	void Start () {
-		_txt_name = GetComponentInChildren<TextMesh> ();
+
 	}
 	
 	// Update is called once per frame
@@ -14,7 +25,9 @@ public class CardView : MonoBehaviour {
 	
 	}
 
-	void setCard( CardType ct, int id ){
+	public void setCard( CardType ct, int id ){
+		Debug.Log (id);
+		Debug.Log (_txt_name);
 		_txt_name.text = getShowText (id);
 	}
 
