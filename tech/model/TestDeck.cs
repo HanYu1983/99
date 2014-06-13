@@ -8,4 +8,3 @@ public class TestDeck : MonoBehaviour
 		_deck.Cards.ForEach (Debug.Log);
 	}
 }
-

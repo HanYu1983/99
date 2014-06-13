@@ -1,8 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class PrefabSource
+public class PrefabSource : MonoBehaviour
 {
+	public GameObject mainPageGO;
+
 	public static GameObject MainPage = Resources.LoadAssetAtPath<GameObject> ( "Assets/gitAssets/ta/prefab/MainPage.prefab" ) ;
 	public static GameObject PlayPage = Resources.LoadAssetAtPath<GameObject> ( "Assets/gitAssets/ta/prefab/PlayPage.prefab" ) ;
 	public static GameObject RankPage = Resources.LoadAssetAtPath<GameObject> ( "Assets/gitAssets/ta/prefab/RankPage.prefab" ) ;
