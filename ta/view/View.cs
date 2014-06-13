@@ -2,19 +2,12 @@
 using System.Collections.Generic;
 
 public class View : SenderMono, IView {
-
-	public GameObject mainPagePrefab;
-	public GameObject playPagePrefab;
-	public GameObject resultPagePrefab;
-	public GameObject rankPagePrefab;
-	public GameObject pausePanelPrefab;
-
 	Dictionary<UIType, GameObject> pages = new Dictionary<UIType, GameObject>();
 
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
-		openTargetPage ( UIType.PlayPage );
+		openTargetPage ( UIType.MainPage );
 	}
 
 	// Update is called once per frame
@@ -29,23 +22,23 @@ public class View : SenderMono, IView {
 		switch (pn) {
 		case UIType.MainPage:
 			layer = GameObject.Find( "pageLayer" );
-			p = (GameObject)Instantiate( mainPagePrefab, layer.transform.position, layer.transform.rotation ); 
+			p = (GameObject)Instantiate( PrefabSource.MainPage, layer.transform.position, layer.transform.rotation ); 
 			break;
 		case UIType.PlayPage:
 			layer = GameObject.Find( "pageLayer" ); 
-			p = (GameObject)Instantiate( playPagePrefab, layer.transform.position, layer.transform.rotation );
+			p = (GameObject)Instantiate( PrefabSource.PlayPage, layer.transform.position, layer.transform.rotation );
 			break;
 		case UIType.ResultPage:
 			layer = GameObject.Find( "pageLayer" ); 
-			p = (GameObject)Instantiate( resultPagePrefab, layer.transform.position, layer.transform.rotation );
+			p = (GameObject)Instantiate( PrefabSource.ResultPage, layer.transform.position, layer.transform.rotation );
 			break;
 		case UIType.RankPage:
 			layer = GameObject.Find( "pageLayer" ); 
-			p = (GameObject)Instantiate( rankPagePrefab, layer.transform.position, layer.transform.rotation );
+			p = (GameObject)Instantiate( PrefabSource.RankPage, layer.transform.position, layer.transform.rotation );
 			break;
 		case UIType.PausePanel:
 			layer = GameObject.Find( "panelLayer" ); 
-			p = (GameObject)Instantiate( pausePanelPrefab, layer.transform.position, layer.transform.rotation );
+			p = (GameObject)Instantiate( PrefabSource.PausePanel, layer.transform.position, layer.transform.rotation );
 			break;
 		default: break;
 		}

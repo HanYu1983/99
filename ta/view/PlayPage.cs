@@ -3,13 +3,12 @@ using System.Collections;
 using System.Linq;
 public class PlayPage : SenderMono {
 
-	GameObject cardPrefab = Resources.LoadAssetAtPath<GameObject> ("Assets/gitAssets/ta/prefab/sub/Card.prefab") ;
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
-		GameObject cardParent = GameObject.Find ("container_hand");
-		GameObject c = (GameObject)Instantiate (cardPrefab, cardParent.transform.position, cardParent.transform.rotation);
-		c.transform.parent = GameObject.Find ("container_hand").transform;
+		GameObject cardParent = GameObject.Find ("HandView");
+		GameObject c = (GameObject)Instantiate (PrefabSource.Card, cardParent.transform.position, cardParent.transform.rotation);
+		c.transform.parent = GameObject.Find ("HandView").transform;
 		//c.transform.Translate (new Vector3 (1, 0));
 		//StartCoroutine (delayAndPlay ());
 	}
