@@ -9,12 +9,12 @@ public class View : SenderMono, IView {
 	public GameObject rankPagePrefab;
 	public GameObject pausePanelPrefab;
 
-	Dictionary<UI, GameObject> pages = new Dictionary<UI, GameObject>();
+	Dictionary<UIType, GameObject> pages = new Dictionary<UIType, GameObject>();
 
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
-		openTargetPage ( UI.MainPage );
+		openTargetPage ( UIType.PlayPage );
 	}
 
 	// Update is called once per frame
@@ -22,23 +22,38 @@ public class View : SenderMono, IView {
 	
 	}
 
-	public void openTargetPage( UI pn ){
+	public void openTargetPage( UIType pn ){
 		if (pages.ContainsKey(pn))	return;
 		GameObject p = null;
 		GameObject layer = null;
 		switch (pn) {
-		case UI.MainPage:p = (GameObject)Instantiate( mainPagePrefab );layer = GameObject.Find( "pageLayer" ); break;
-		case UI.PlayPage:p = (GameObject)Instantiate( playPagePrefab );layer = GameObject.Find( "pageLayer" ); break;
-		case UI.ResultPage:p = (GameObject)Instantiate( resultPagePrefab );layer = GameObject.Find( "pageLayer" ); break;
-		case UI.RankPage:p = (GameObject)Instantiate( rankPagePrefab );layer = GameObject.Find( "pageLayer" ); break;
-		case UI.PausePanel:p = (GameObject)Instantiate( pausePanelPrefab );layer = GameObject.Find( "panelLayer" ); break;
+		case UIType.MainPage:
+			layer = GameObject.Find( "pageLayer" );
+			p = (GameObject)Instantiate( mainPagePrefab, layer.transform.position, layer.transform.rotation ); 
+			break;
+		case UIType.PlayPage:
+			layer = GameObject.Find( "pageLayer" ); 
+			p = (GameObject)Instantiate( playPagePrefab, layer.transform.position, layer.transform.rotation );
+			break;
+		case UIType.ResultPage:
+			layer = GameObject.Find( "pageLayer" ); 
+			p = (GameObject)Instantiate( resultPagePrefab, layer.transform.position, layer.transform.rotation );
+			break;
+		case UIType.RankPage:
+			layer = GameObject.Find( "pageLayer" ); 
+			p = (GameObject)Instantiate( rankPagePrefab, layer.transform.position, layer.transform.rotation );
+			break;
+		case UIType.PausePanel:
+			layer = GameObject.Find( "panelLayer" ); 
+			p = (GameObject)Instantiate( pausePanelPrefab, layer.transform.position, layer.transform.rotation );
+			break;
 		default: break;
 		}
 		p.transform.parent = layer.transform;
 		pages.Add (pn, p);
 	}
 
-	public void closeTargetPage( UI pn ){
+	public void closeTargetPage( UIType pn ){
 		if (pages [pn] == null)	return;
 		Destroy ( pages [pn]);
 		pages.Remove (pn);

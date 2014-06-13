@@ -1,6 +1,6 @@
 public interface IView
 {
-	void openTargetPage ( UI pn);
-	void closeTargetPage( UI pn );
+	void openTargetPage ( UIType pn);
+	void closeTargetPage( UIType pn );
 }
 
