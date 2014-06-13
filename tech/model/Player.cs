@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 public class Player : IPlayer
 {
+	public int EntityID{ get{ return 0; } }
+	public EntityType EntityType{ get { return EntityType.Player; } }
+
 	IList<ICard> _cards = new List<ICard>();
 	public bool IsNoCard{ get{ return _cards.Count == 0; } }
 	public void AddCard(ICard card){
