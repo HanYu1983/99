@@ -1,4 +1,4 @@
-public enum UI{
+public enum UIType{
 	MainPage, PlayPage, ResultPage, RankPage, PausePanel
 }
 
