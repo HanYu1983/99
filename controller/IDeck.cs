@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public interface IDeck
+public interface IDeck : IDeckPlayer
 {
+	IDeckDelegate DeckDelegate{ get; set; }
 	bool IsEmpty{ get; }
 	void Shuffle();
-	IList<ICard> Cards{ get; }
 	IList<ICard> Peek(int amount);
 	void Draw(IDeckPlayer player);
 	void Push(IDeckPlayer player, ICard card);

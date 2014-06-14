@@ -4,13 +4,12 @@ using System.Linq;
 
 public class Deck : IDeck
 {
-	List<ICard> _cards;
-	
-	public Deck(){
-		_cards = new List<ICard> (Card.AllCard);
-	}
-
+	List<ICard> _cards = new List<ICard>();
 	public IList<ICard> Cards{ get { return _cards; } }
+
+	IDeckDelegate _delegate;
+	public IDeckDelegate DeckDelegate{ get { return _delegate; } set { _delegate = value; } }
+
 	public bool IsEmpty { get{ return _cards.Count == 0; } }
 
 	public void Shuffle(){
@@ -35,8 +34,10 @@ public class Deck : IDeck
 	}
 
 	public void Push(IDeckPlayer player, ICard card){
-		if( player.IsContainCard(card) )
+		if (player.IsContainCard (card)) {
 			_cards.Add (player.RemoveCard (card));
+			_delegate.OnCardPush(this, player, card);
+		}
 	}
 							
 	public void Insert(IDeckPlayer player, ICard card, int index){
@@ -50,5 +51,19 @@ public class Deck : IDeck
 			_cards.Insert ( 0, player.RemoveCard (card));
 	}
 
+	public bool IsNoCard{ get{ return _cards.Count == 0; } }
+
+	public void AddCard(ICard card){
+		_cards.Add (card);
+	}
+
+	public bool IsContainCard(ICard card){
+		return _cards.Contains (card);
+	}
+
+	public ICard RemoveCard(ICard card){
+		_cards.Remove (card);
+		return card;
+	}
 }
 

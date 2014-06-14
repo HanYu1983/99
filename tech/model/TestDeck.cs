@@ -1,11 +1,14 @@
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class TestDeck : TestMono
 {
 	IDeck _deck = new Deck();
 	IPlayer _player = new Player();
 	void Start (){
+		Card.AllCard.ToList().ForEach(card=>_deck.AddCard(card));
+
 		Assert (_deck.Cards.Count == 52, "1");
 		Assert (_player.Cards.Count == 0, "2");
 		Assert (Card.ClubK == _deck.Peek(1)[0], "3");
