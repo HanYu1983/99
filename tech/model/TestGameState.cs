@@ -35,6 +35,9 @@ public class TestGameState : TestMono, IPlayerController
 		Assert (gameState.IsOutOf99, "7");
 		Assert (player.IsNoCard, "8");
 	}
+	public void Think(){
+
+	}
 	public IPlayer Owner{ get{ return null; } set{ } }
 	public IDeckPlayer CardOwner{ get{ return null; } }
 	public Direction Direction{ get{ return Direction.Forward; } set{} }

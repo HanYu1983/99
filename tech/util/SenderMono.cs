@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class SenderMono : ReceiverMono, IEventSender {
+public class SenderMono : ReceiverMono, IEventSender {
 	DefaultEventSender _sender = new DefaultEventSender();
 	public DefaultEventSender Sender {
 		get{ return _sender; }
@@ -18,7 +18,9 @@ public abstract class SenderMono : ReceiverMono, IEventSender {
 		base.OnDestroy ();
 	}
 
-	protected abstract bool HandleVerifyReceiverDelegate (object receiver);
+	protected virtual bool HandleVerifyReceiverDelegate (object receiver){
+		return false;
+	}
 
 	public void OnAddReceiver(object receiver){
 		_sender.OnAddReceiver (receiver);	

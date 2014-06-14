@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Linq;
 
-public class GameState : SenderAdapter, IGameState, IDeckDelegate, ICardAbilityReceiver
+public class GameState : IGameState, ICardAbilityReceiver
 {
 	int _entityId;
 	public int EntityID{ get{ return _entityId; } set{ _entityId = value; } }
@@ -14,18 +14,12 @@ public class GameState : SenderAdapter, IGameState, IDeckDelegate, ICardAbilityR
 
 	public IDeck CenterDeck{ 
 		get{ return _centerDeck; } 
-		set{ _centerDeck = value; _centerDeck.DeckDelegate = this;} 
+		set{ _centerDeck = value; } 
 	}
 	public int CurrentNumber{ 
 		get{ return _currentNumber; }
 	}
 	public bool IsOutOf99{ get{ return CurrentNumber > 99; } }
-
-	public void OnCardPush(IDeck deck, IDeckPlayer player, ICard card){
-		Sender.Receivers.ToList().ForEach(obj=>{
-			((IGameStateDelegate)obj).OnCardPush(deck, player, card);
-		});
-	}
 
 	public IDeckPlayer CardOwner{ get{ return null; } }
 	public Direction Direction{ get{ return _direction; } set{ _direction = value; } }
@@ -33,29 +27,16 @@ public class GameState : SenderAdapter, IGameState, IDeckDelegate, ICardAbilityR
 		_currentNumber += number;
 	}
 	public void Pass(IDeckPlayer owner){
-
+		// no feature
 	}
 	public void FullNumber(){
 		_currentNumber = 99;
 	}
 	public void AssignPlayer(IDeckPlayer owner){
-		/*
-		IPlayer p = owner as IPlayer;
-		if (p != null) {
-			p.Controller.AssignPlayer(owner);
-		}
-		*/
+		// no feature
 	}
 	public void ControlNumber(int number, IDeckPlayer owner){
-		/*
-		IPlayer p = owner as IPlayer;
-		if (p != null) {
-			p.Controller.ControlNumber(number, owner);
-		}
-		*/
+		// no feature
 	}
-
-	protected override bool HandleVerifyReceiverDelegate (object receiver){
-		return typeof(IGameStateDelegate).IsAssignableFrom (receiver.GetType ());
-	}
+	
 }

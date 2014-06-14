@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public interface IDeck : IDeckPlayer
 {
-	IDeckDelegate DeckDelegate{ get; set; }
 	bool IsEmpty{ get; }
 	void Shuffle();
 	IList<ICard> Peek(int amount);

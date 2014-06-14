@@ -2,13 +2,10 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Deck : IDeck
+public class Deck : SenderAdapter, IDeck
 {
 	List<ICard> _cards = new List<ICard>();
 	public IList<ICard> Cards{ get { return _cards; } }
-
-	IDeckDelegate _delegate;
-	public IDeckDelegate DeckDelegate{ get { return _delegate; } set { _delegate = value; } }
 
 	public bool IsEmpty { get{ return _cards.Count == 0; } }
 
@@ -30,13 +27,18 @@ public class Deck : IDeck
 			ICard card = _cards [_cards.Count - 1];
 			player.AddCard (card);
 			_cards.Remove (card);
+			Sender.Receivers.ToList().ForEach(obj=>{
+				((IDeckDelegate)obj).OnPlayerDraw(this, player, card);
+			});
 		}
 	}
 
 	public void Push(IDeckPlayer player, ICard card){
 		if (player.IsContainCard (card)) {
 			_cards.Add (player.RemoveCard (card));
-			_delegate.OnCardPush(this, player, card);
+			Sender.Receivers.ToList().ForEach(obj=>{
+				((IDeckDelegate)obj).OnCardPush(this, player, card);
+			});
 		}
 	}
 							
@@ -64,6 +66,10 @@ public class Deck : IDeck
 	public ICard RemoveCard(ICard card){
 		_cards.Remove (card);
 		return card;
+	}
+
+	protected override bool HandleVerifyReceiverDelegate (object receiver){
+		return typeof(IDeckDelegate).IsAssignableFrom (receiver.GetType ());
 	}
 }
 
