@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public interface IMatch : IEntity
 {
+	IDeck Deck{ get; }
 	IDeck CenterDeck{ get; }
 	IGameState GameState{ get; }
 	void PlayerJoin(IOption<IPlayer> player);

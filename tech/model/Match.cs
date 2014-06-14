@@ -18,6 +18,7 @@ public class Match : SenderAdapter, IMatch
 		Card.AllCard.ToList().ForEach(card=>_deck.AddCard(card));
 		_gameState.CenterDeck = _centerDeck;
 	}
+	public IDeck Deck{ get{ return _deck; } }
 	public IDeck CenterDeck{ get { return _centerDeck; } }
 	public IGameState GameState{ get{ return _gameState; } }
 
@@ -27,7 +28,17 @@ public class Match : SenderAdapter, IMatch
 	public void PlayerLeave(IOption<IPlayer> player){
 		_players.Remove (player);
 	}
-	public IOption<IPlayer> CurrentPlayer{ get{ return _currentPlayer; } set{ _currentPlayer = value; } }
+	public IOption<IPlayer> CurrentPlayer{
+		get{ return _currentPlayer; } 
+		set{
+			if(_currentPlayer.Identity != value.Identity ){
+				_currentPlayer = value;
+				Sender.Receivers.ToList().ForEach(obj=>{
+					((IMatchDelegate)obj).OnCurrentPlayerChange(this, _currentPlayer);
+				});
+			}
+		} 
+	}
 	public IOption<IPlayer> NextPlayer{ 
 		get{
 			switch(GameState.Direction){
@@ -41,7 +52,15 @@ public class Match : SenderAdapter, IMatch
 	}
 	public IList<IOption<IPlayer>> Players{ get{ return _players; } }
 	void MakePlayerCircleLink(){
-
+		List<IOption<IPlayer>> l1 = _players;
+		List<IOption<IPlayer>> l2 = _players.GetRange (1, _players.Count - 2);
+		l2.Add (_players [0]);
+		for (int i=0; i<l1.Count; ++i) {
+			IPlayer p = l1[i].Instance;
+			IPlayer n = l2[i].Instance;
+			p.Next = l2[i];
+			n.Prev = l1[i];
+		}
 	}
 	public void StartMatch(){
 		MakePlayerCircleLink ();
@@ -62,6 +81,6 @@ public class Match : SenderAdapter, IMatch
 		if (target != null) {
 			target.Match = this;
 		}
-		return false;
+		return receiver is IMatchDelegate;
 	}
 }

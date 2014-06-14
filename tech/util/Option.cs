@@ -11,6 +11,8 @@ using System;
 
 
 public interface IOption<ObjType>{
+	string Identity{ get; }
+
 	ObjType Instance{ get; }
 	
 	IOption<ObjType> Map(Func<ObjType, Void> fun);
@@ -40,6 +42,8 @@ public abstract class AbstractOption<ObjType> : IOption<ObjType>{
 	public abstract ObjType Or(ObjType def);
 	
 	public abstract bool IsDeleted{ get; }
+
+	public abstract string Identity{ get; }
 }
 
 public class Option<ObjType> : AbstractOption<ObjType>
@@ -52,6 +56,8 @@ public class Option<ObjType> : AbstractOption<ObjType>
 		_container = container;
 		_value = value;
 	}
+
+	public override string Identity{ get{ return _value; } }
 
 	public override ObjType Instance{ 
 		get{

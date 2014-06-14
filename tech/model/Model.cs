@@ -2,12 +2,16 @@
 using System.Collections;
 using System.Linq;
 
-public class Model : SenderAdapter, IModel, IDeckDelegate, ICardAbilityReceiver {
+public class Model : SenderAdapter, IModel, IDeckDelegate, ICardAbilityReceiver, IMatchDelegate, IPlayerDelegate {
 	IMatch _match = new Match();
 	IEntityManager _entityManager;
 
 	public void StartMatch(){
 		_match.StartMatch ();
+	}
+
+	public void OnCurrentPlayerChange(IMatch match, IOption<IPlayer> player){
+
 	}
 
 	public void OnPlayerDraw(IDeck deck, IDeckPlayer player, ICard card){
@@ -20,7 +24,15 @@ public class Model : SenderAdapter, IModel, IDeckDelegate, ICardAbilityReceiver 
 		}
 	}
 
-	public IDeckPlayer CardOwner{ get{ return null; } }
+	public void OnPlayerWillPushCard(IPlayer player, ICard card){
+		player.Match.CenterDeck.Push (player, card);
+	}
+
+	public void OnPlayerWillDrawCard(IPlayer player){
+		player.Match.Deck.Draw (player);
+	}
+
+	public IDeckPlayer CardOwner{ get{ return _match.CurrentPlayer.Instance; } }
 	public Direction Direction{ 
 		get{ return _match.GameState.Direction; }
 		set{ 
