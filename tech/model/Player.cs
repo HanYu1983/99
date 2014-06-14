@@ -9,6 +9,12 @@ public class Player : Deck, IPlayer
 	IPlayerController _controller;
 	public IPlayerController Controller{ get{ return _controller; } set{ _controller = value; } }
 
+
+	IOption<IPlayer> _next, _prev; 
+	public IOption<IPlayer> Next{ get{ return _next; } set{ _next = value; } }
+	public IOption<IPlayer> Prev{ get{ return _prev; } set{ _prev = value; } }
+
+
 	public void PushCard(ICard card){
 
 	}

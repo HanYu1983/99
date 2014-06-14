@@ -7,5 +7,6 @@ public interface IEntityManager
 {
 	void Register(IEntity entity);
 	void Remove(IEntity entity);
-	IList<IOption<T>> Get<T>(T clz, EntityType type);
+	IOption<T> GetEntity<T>(int entityId);
+	IList<IOption<T>> GetType<T>(EntityType type);
 }

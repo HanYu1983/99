@@ -4,6 +4,7 @@ using System.Linq;
 
 public class Model : SenderAdapter, IModel, IDeckDelegate, ICardAbilityReceiver {
 	IMatch _match = new Match();
+	IEntityManager _entityManager;
 
 	public void StartMatch(){
 		_match.StartMatch ();
@@ -34,7 +35,14 @@ public class Model : SenderAdapter, IModel, IDeckDelegate, ICardAbilityReceiver 
 		Pass (null);
 	}
 	public void Pass(IDeckPlayer owner){
-		_match.CurrentPlayer = null;
+		IPlayer player = owner as IPlayer;
+		if (player != null) {
+
+			IOption<IPlayer> next = _entityManager.GetEntity<IPlayer>(player.EntityID);
+			_match.CurrentPlayer = next;
+		}
+
+
 	}
 	public void FullNumber(){
 		ICardAbilityReceiver car = _match.GameState as ICardAbilityReceiver;
