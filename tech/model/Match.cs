@@ -22,6 +22,7 @@ public class Match : SenderAdapter, IMatch
 	public IGameState GameState{ get{ return _gameState; } }
 
 	public void PlayerJoin(IOption<IPlayer> player){
+		/*
 		if (_players.Count > 0) {
 			_players[_players.Count-1].Map(prev=>{
 				prev.Next = player;
@@ -30,6 +31,7 @@ public class Match : SenderAdapter, IMatch
 				next.Prev = _players[_players.Count-1];
 			});
 		}
+		*/
 		_players.Add (player);
 	}
 	public void PlayerLeave(IOption<IPlayer> player){

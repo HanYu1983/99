@@ -31,7 +31,10 @@ public class Model : SenderAdapter, IModel, IDeckDelegate, ICardAbilityReceiver 
 		} 
 	}
 	public void AddNumber(int number){ 
-		_match.GameState.AddNumber (number);
+		ICardAbilityReceiver car = _match.GameState as ICardAbilityReceiver;
+		if (car != null) {
+			car.AddNumber(number);
+		}
 		Pass (null);
 	}
 	public void Pass(IDeckPlayer owner){
@@ -41,8 +44,6 @@ public class Model : SenderAdapter, IModel, IDeckDelegate, ICardAbilityReceiver 
 			IOption<IPlayer> next = _entityManager.GetEntity<IPlayer>(player.EntityID);
 			_match.CurrentPlayer = next;
 		}
-
-
 	}
 	public void FullNumber(){
 		ICardAbilityReceiver car = _match.GameState as ICardAbilityReceiver;
