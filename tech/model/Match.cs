@@ -22,42 +22,41 @@ public class Match : SenderAdapter, IMatch
 	public IGameState GameState{ get{ return _gameState; } }
 
 	public void PlayerJoin(IOption<IPlayer> player){
-		/*
-		if (_players.Count > 0) {
-			_players[_players.Count-1].Map(prev=>{
-				prev.Next = player;
-			});
-			player.Map(next=>{
-				next.Prev = _players[_players.Count-1];
-			});
-		}
-		*/
 		_players.Add (player);
 	}
 	public void PlayerLeave(IOption<IPlayer> player){
 		_players.Remove (player);
 	}
 	public IOption<IPlayer> CurrentPlayer{ get{ return _currentPlayer; } set{ _currentPlayer = value; } }
-	public IList<IOption<IPlayer>> Players{ get{ return _players; } }
-	public void StartMatch(){
-		while (!_deck.IsNoCard) {
-			_players.ForEach(op=>{
-				op.Map(player=>{
-					if(!_deck.IsNoCard){
-						_deck.Draw(player);
-					}
-				});
-			});
+	public IOption<IPlayer> NextPlayer{ 
+		get{
+			switch(GameState.Direction){
+			case Direction.Forward:
+				return CurrentPlayer.Instance.Next;
+			case Direction.Backward:
+				return CurrentPlayer.Instance.Prev;
+			}
+			return Option<IPlayer>.None;
 		}
-		CurrentPlayer = Players [0];
 	}
-	public void Next(){
-		CurrentPlayer.Map (player => player.Controller.Think ());
+	public IList<IOption<IPlayer>> Players{ get{ return _players; } }
+	void MakePlayerCircleLink(){
+
+	}
+	public void StartMatch(){
+		MakePlayerCircleLink ();
+		_players.ForEach(op=>{
+			op.Map(player=>{
+				for(int i=0; i<4; ++i){
+					_deck.Draw(player);
+				}
+			});
+		});
+		CurrentPlayer = Players [0];
 	}
 	public void EndMatch(){
 
 	}
-
 	protected override bool HandleVerifyReceiverDelegate (object receiver){
 		IInjectMatch target = receiver as IInjectMatch;
 		if (target != null) {

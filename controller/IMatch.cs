@@ -8,8 +8,8 @@ public interface IMatch : IEntity
 	void PlayerJoin(IOption<IPlayer> player);
 	void PlayerLeave(IOption<IPlayer> player);
 	IOption<IPlayer> CurrentPlayer{ get; set; }
+	IOption<IPlayer> NextPlayer{ get; }
 	IList<IOption<IPlayer>> Players{ get; }
 	void StartMatch();
-	void Next();
 	void EndMatch();
 }
