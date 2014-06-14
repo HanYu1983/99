@@ -13,15 +13,14 @@ public class EntityManager : IEntityManager
 	}
 	public void Destroy(int id){
 		if (_entities.ContainsKey (id)) {
-			Unregister(_entities[id]);
 			_entities[id].OnEntityDestroy(this);
+			Unregister(_entities[id]);
 		}
 	}
 	public void Register(IEntity entity){
 		if (entity.EntityID == -1) {
 			entity.EntityID = GenerateId();
 		}
-		Debug.Log ("Register "+entity+" "+entity.EntityID);
 		_entities [entity.EntityID] = entity;
 		AddEventManager (entity);
 	}

@@ -56,7 +56,7 @@ public class Match : SenderAdapter, IMatch
 	public IList<IOption<IPlayer>> Players{ get{ return _players; } }
 	void MakePlayerCircleLink(){
 		List<IOption<IPlayer>> l1 = _players;
-		List<IOption<IPlayer>> l2 = _players.GetRange (1, _players.Count - 2);
+		List<IOption<IPlayer>> l2 = _players.GetRange (1, _players.Count - 1);
 		l2.Add (_players [0]);
 		for (int i=0; i<l1.Count; ++i) {
 			IPlayer p = l1[i].Instance;
