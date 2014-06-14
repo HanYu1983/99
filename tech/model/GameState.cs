@@ -2,11 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Linq;
 
-public class GameState : IGameState, ICardAbilityReceiver
+public class GameState : ReceiverAdatper, IGameState, ICardAbilityReceiver
 {
-	int _entityId;
-	public int EntityID{ get{ return _entityId; } set{ _entityId = value; } }
-	public EntityType EntityType{ get { return EntityType.Unknown; } }
 
 	IDeck _centerDeck;
 	Direction _direction = Direction.Forward;

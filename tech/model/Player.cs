@@ -2,11 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Player : SenderAdapter, IPlayer, IInjectMatch
+public class Player : SenderAdapter, IPlayer
 {
-	public int EntityID{ get{ return 0; } set{ } }
-	public EntityType EntityType{ get { return EntityType.Player; } }
-
 	IPlayerController _controller;
 	public IPlayerController Controller{ get{ return _controller; } set{ _controller = value; } }
 	
@@ -31,9 +28,7 @@ public class Player : SenderAdapter, IPlayer, IInjectMatch
 	IMatch _match;
 	public IMatch Match{ 
 		get{ return _match; } 
-		set{
-			_match = value;
-		}
+		set{ _match = value; }
 	}
 
 	public void PushCard(ICard card){

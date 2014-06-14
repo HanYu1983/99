@@ -4,7 +4,6 @@ using System.Linq;
 
 public class Model : SenderAdapter, IModel, IDeckDelegate, ICardAbilityReceiver, IMatchDelegate, IPlayerDelegate {
 	IMatch _match = new Match();
-	IEntityManager _entityManager;
 
 	public void StartMatch(){
 		_match.StartMatch ();
@@ -52,9 +51,6 @@ public class Model : SenderAdapter, IModel, IDeckDelegate, ICardAbilityReceiver,
 	public void Pass(IDeckPlayer owner){
 		IPlayer player = owner as IPlayer;
 		if (player != null) {
-
-			IOption<IPlayer> next = _entityManager.GetEntity<IPlayer>(player.EntityID);
-			_match.CurrentPlayer = next;
 		}
 	}
 	public void FullNumber(){

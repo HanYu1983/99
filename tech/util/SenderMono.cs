@@ -8,14 +8,13 @@ public class SenderMono : ReceiverMono, IEventSender {
 	}
 
 	protected override void Start () {
-		base.Start ();
 		_sender.VerifyReceiverDelegate += HandleVerifyReceiverDelegate;
-		EventManager.Singleton.AddSender (this);
+		base.Start (); // register after add Verify function
 	}
 
 	protected override void OnDestroy(){
-		EventManager.Singleton.RemoveSender (this);
-		base.OnDestroy ();
+		base.OnDestroy (); // unregister before delete Verify function
+		_sender.VerifyReceiverDelegate -= HandleVerifyReceiverDelegate;
 	}
 
 	protected virtual bool HandleVerifyReceiverDelegate (object receiver){

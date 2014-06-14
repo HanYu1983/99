@@ -11,7 +11,7 @@ using System;
 
 
 public interface IOption<ObjType>{
-	string Identity{ get; }
+	int Identity{ get; }
 
 	ObjType Instance{ get; }
 	
@@ -24,8 +24,8 @@ public interface IOption<ObjType>{
 	bool IsDeleted{get;}
 }
 
-public interface IIDObjContainer<ObjType>{
-	ObjType GetObject(string id);
+public interface IOptionContainer{
+	object GetObject(int id);
 }
 
 public abstract class AbstractOption<ObjType> : IOption<ObjType>{
@@ -36,46 +36,46 @@ public abstract class AbstractOption<ObjType> : IOption<ObjType>{
 		return this;
 	}
 	public IOption<TargetType> FlatMap <TargetType> (Func<ObjType, IOption<TargetType>> fun){
-		return IsDeleted ? new Option<TargetType>(null, "") : fun(Instance);
+		return IsDeleted ? new Option<TargetType>(null, -1) : fun(Instance);
 	}
 	
 	public abstract ObjType Or(ObjType def);
 	
 	public abstract bool IsDeleted{ get; }
 
-	public abstract string Identity{ get; }
+	public abstract int Identity{ get; }
 }
 
 public class Option<ObjType> : AbstractOption<ObjType>
 {
-	string _value;
-	public IIDObjContainer<ObjType> _container;
+	int _value;
+	public IOptionContainer _container;
 
-	public Option(IIDObjContainer<ObjType> container, string value)
+	public Option(IOptionContainer container, int value)
 	{
 		_container = container;
 		_value = value;
 	}
 
-	public override string Identity{ get{ return _value; } }
+	public override int Identity{ get{ return _value; } }
 
 	public override ObjType Instance{ 
 		get{
 			if(IsDeleted)
 				throw new Exception("Option attempt to get null obj ["+_value+"]");
-			return _container.GetObject(_value);
+			return (ObjType)_container.GetObject(_value);
 		}
 	}
 
 	public override ObjType Or(ObjType def){
-		return IsDeleted ? def : _container.GetObject(_value);
+		return IsDeleted ? def : (ObjType)_container.GetObject(_value);
 	}
 	
 	public override bool IsDeleted{ get{ return _container == null ? true : _container.GetObject(_value) == null; } }
 
-	public static Option<ObjType> Wrap(string obj, IIDObjContainer<ObjType> container){
-		return new Option<ObjType>(container, obj);
+	public static Option<ObjType> Wrap(int id, IOptionContainer container){
+		return new Option<ObjType>(container, id);
 	}
 
-	public static Option<ObjType> None = new Option<ObjType>(null, "");
+	public static Option<ObjType> None = new Option<ObjType>(null, -1);
 }

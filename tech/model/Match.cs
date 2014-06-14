@@ -4,13 +4,9 @@ using System.Linq;
 
 public class Match : SenderAdapter, IMatch
 {
-	int _entityId;
-	public int EntityID{ get{ return _entityId; } set{ _entityId = value; } }
-	public EntityType EntityType{ get { return EntityType.Unknown; } }
-
-	IDeck _deck = new Deck();
-	IDeck _centerDeck = new Deck();
-	IGameState _gameState = new GameState();
+	IDeck _deck = EntityManager.Singleton.Create<Deck>();
+	IDeck _centerDeck = EntityManager.Singleton.Create<Deck>();
+	IGameState _gameState = EntityManager.Singleton.Create<GameState>();
 	List<IOption<IPlayer>> _players = new List<IOption<IPlayer>> ();
 	IOption<IPlayer> _currentPlayer = Option<IPlayer>.None;
 
@@ -18,15 +14,22 @@ public class Match : SenderAdapter, IMatch
 		Card.AllCard.ToList().ForEach(card=>_deck.AddCard(card));
 		_gameState.CenterDeck = _centerDeck;
 	}
+	public override void OnEntityDestroy(IEntityManager mgr){
+		mgr.Destroy (_deck.EntityID);
+		mgr.Destroy (_centerDeck.EntityID);
+		mgr.Destroy (_gameState.EntityID);
+	}
 	public IDeck Deck{ get{ return _deck; } }
 	public IDeck CenterDeck{ get { return _centerDeck; } }
 	public IGameState GameState{ get{ return _gameState; } }
 
 	public void PlayerJoin(IOption<IPlayer> player){
+		player.Map (p =>{p.Match = this;});
 		_players.Add (player);
 	}
 	public void PlayerLeave(IOption<IPlayer> player){
 		_players.Remove (player);
+		player.Map (p => {p.Match = null;});
 	}
 	public IOption<IPlayer> CurrentPlayer{
 		get{ return _currentPlayer; } 
@@ -77,10 +80,6 @@ public class Match : SenderAdapter, IMatch
 
 	}
 	protected override bool HandleVerifyReceiverDelegate (object receiver){
-		IInjectMatch target = receiver as IInjectMatch;
-		if (target != null) {
-			target.Match = this;
-		}
 		return receiver is IMatchDelegate;
 	}
 }
