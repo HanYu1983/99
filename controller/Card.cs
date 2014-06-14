@@ -26,6 +26,9 @@ public class Card : ICard
 		case CardAbility.Unknown:
 			receiver.AddNumber(Number);
 			break;
+		case CardAbility.Pass:
+			receiver.Pass(receiver.CardOwner);
+			break;
 		case CardAbility.AddNumber10:
 			receiver.ControlNumber(10, receiver.CardOwner);
 			break;
@@ -33,7 +36,7 @@ public class Card : ICard
 			receiver.ControlNumber(20, receiver.CardOwner);
 			break;
 		case CardAbility.AddNumber99:
-			receiver.AddNumber(99);
+			receiver.FullNumber();
 			break;
 		case CardAbility.AssignPlayer:
 			receiver.AssignPlayer(receiver.CardOwner);

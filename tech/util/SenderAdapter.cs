@@ -1,25 +1,26 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public abstract class SenderMono : ReceiverMono, IEventSender {
+public class SenderAdapter : ReceiverAdatper, IEventSender
+{
 	DefaultEventSender _sender = new DefaultEventSender();
 	public DefaultEventSender Sender {
 		get{ return _sender; }
 	}
-
-	protected override void Start () {
-		base.Start ();
+	
+	protected SenderAdapter () {
 		_sender.VerifyReceiverDelegate += HandleVerifyReceiverDelegate;
 		EventManager.Singleton.AddSender (this);
 	}
-
-	protected override void OnDestroy(){
+	
+	~SenderAdapter(){
 		EventManager.Singleton.RemoveSender (this);
-		base.OnDestroy ();
 	}
-
-	protected abstract bool HandleVerifyReceiverDelegate (object receiver);
-
+	
+	protected virtual bool HandleVerifyReceiverDelegate (object receiver){
+		return false;
+	}
+	
 	public void OnAddReceiver(object receiver){
 		_sender.OnAddReceiver (receiver);	
 	}
@@ -28,3 +29,4 @@ public abstract class SenderMono : ReceiverMono, IEventSender {
 		_sender.OnRemoveReceiver (receiver);
 	}
 }
+

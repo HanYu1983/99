@@ -32,6 +32,5 @@ public class TestDeck : TestMono
 		Assert (_deck.Cards [1] == Card.ClubJ, "15");
 		Assert (_player.IsNoCard, "16");
 		Assert (_deck.Cards.Count == 52, "17");
-		Debug.Log ("Test OK");
 	}
 }

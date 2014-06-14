@@ -6,7 +6,7 @@ public class EntityComponent : ReceiverMono, IEntity, IEntityManagerInject
 	public int entityId;
 	public EntityType entityType;
 
-	public int EntityID{ get{ return entityId; } }
+	public int EntityID{ get{ return entityId; } set{ entityId = value; } }
 	public EntityType EntityType{ get { return entityType; } }
 
 	IEntityManager _entityManager;
