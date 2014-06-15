@@ -7,6 +7,9 @@ public class PlayPage : SenderMono {
 	Dictionary<int, GameObject> _hands = new Dictionary<int, GameObject> ();
 	GameObject _stack;
 	public GameObject container_hand;
+	public GameObject container_hand2;
+	public GameObject container_hand3;
+	public GameObject container_hand4;
 	public GameObject container_stack;
 	// Use this for initialization
 	protected override void Start () {
@@ -24,15 +27,23 @@ public class PlayPage : SenderMono {
 
 	public void dealCard( IDeck deck, IDeckPlayer player, ICard card  ){
 		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> (100).Instance;
-		if (_stack != null) {
+		if (_stack == null) {
 			_stack = (GameObject)Instantiate (prefabSource.Stack, container_stack.transform.position, container_stack.transform.rotation);
 			_stack.transform.parent = container_stack.transform;
 		}
+		_stack.GetComponent<StackView> ().dealCard (player, card);
 
+		GameObject layer = null;
 		if (!_hands.ContainsKey( player.EntityID )) {
+			switch( player.EntityID ){
+			case (int)EnumEntityID.Player1:layer = container_hand;break;
+			case (int)EnumEntityID.Player2:layer = container_hand2;break;
+			case (int)EnumEntityID.Player3:layer = container_hand3;break;
+			case (int)EnumEntityID.Player4:layer = container_hand4;break;
+			}
 
-			GameObject handView = (GameObject)Instantiate (prefabSource.Hand, container_hand.transform.position, container_hand.transform.rotation);
-			handView.transform.parent = this.transform;
+			GameObject handView = (GameObject)Instantiate (prefabSource.Hand, layer.transform.position, layer.transform.rotation);
+			handView.transform.parent = layer.transform;
 			_hands.Add( player.EntityID, handView );
 		}
 		_hands[ player.EntityID ].GetComponent<HandView> ().addCard (card);

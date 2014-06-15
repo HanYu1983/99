@@ -53,10 +53,10 @@ public class Controller :
 	}
 
 	public void onPlayPageGameStart( object sender ){
-		IPlayer p = EntityManager.Singleton.Create<Player> (0);
-		IPlayer p2 = EntityManager.Singleton.Create<Player> ();
-		IPlayer p3 = EntityManager.Singleton.Create<Player> ();
-		IPlayer p4 = EntityManager.Singleton.Create<Player> ();
+		IPlayer p = EntityManager.Singleton.Create<Player> ((int)EnumEntityID.Player1);
+		IPlayer p2 = EntityManager.Singleton.Create<Player> ((int)EnumEntityID.Player2);
+		IPlayer p3 = EntityManager.Singleton.Create<Player> ((int)EnumEntityID.Player3);
+		IPlayer p4 = EntityManager.Singleton.Create<Player> ((int)EnumEntityID.Player4);
 
 		_model.PlayerJoin (EntityManager.Singleton.GetEntity<IPlayer>(p.EntityID));
 		_model.PlayerJoin (EntityManager.Singleton.GetEntity<IPlayer>(p2.EntityID));

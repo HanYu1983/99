@@ -3,7 +3,7 @@ using System.Collections;
 
 public class StackView : MonoBehaviour {
 
-	void dealCard( IDeckPlayer player, ICard card ){
+	public void dealCard( IDeckPlayer player, ICard card ){
 
 	}
 }
