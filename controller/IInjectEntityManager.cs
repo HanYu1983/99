@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public interface IEntityManagerInject
+public interface IInjectEntityManager
 {
 	IEntityManager EntityManager{ get; set; }
 }

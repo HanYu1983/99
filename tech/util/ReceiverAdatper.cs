@@ -1,14 +1,14 @@
 using UnityEngine;
 using System.Collections;
 
-public class ReceiverAdatper
+public class ReceiverAdatper : Entity
 {
 	protected ReceiverAdatper(){
-		EventManager.Singleton.AddReceiver (this);
+
 	}
 	
 	~ReceiverAdatper(){
-		EventManager.Singleton.RemoveReceiver (this);
+
 	}
 }
 

@@ -1,25 +1,14 @@
 using UnityEngine;
 using System.Collections;
 
-public class EntityComponent : ReceiverMono, IEntity, IEntityManagerInject
+public class EntityComponent : MonoBehaviour, IEntity
 {
-	public int entityId;
+	public int entityId = -1;
 	public EntityType entityType;
 
 	public int EntityID{ get{ return entityId; } set{ entityId = value; } }
-	public EntityType EntityType{ get { return entityType; } }
+	public EntityType EntityType{ get { return entityType; } set{ entityType = value; } }
+	public void OnEntityDestroy(IEntityManager mgr){}
 
-	IEntityManager _entityManager;
-	public IEntityManager EntityManager{ get{ return _entityManager; } set{ _entityManager = value; } }
 
-	protected override void Start(){
-		base.Start ();
-		EntityManager.Register (this);
-	}
-
-	protected override void OnDestroy(){
-		EntityManager.Remove (this);
-		base.OnDestroy ();
-	}
 }
-

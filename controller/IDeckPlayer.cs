@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public interface IDeckPlayer
+public interface IDeckPlayer : IEntity
 {
 	bool IsNoCard{ get; }
 	void AddCard(ICard card);

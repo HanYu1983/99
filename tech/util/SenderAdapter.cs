@@ -10,11 +10,10 @@ public class SenderAdapter : ReceiverAdatper, IEventSender
 	
 	protected SenderAdapter () {
 		_sender.VerifyReceiverDelegate += HandleVerifyReceiverDelegate;
-		EventManager.Singleton.AddSender (this);
 	}
 	
 	~SenderAdapter(){
-		EventManager.Singleton.RemoveSender (this);
+		_sender.VerifyReceiverDelegate -= HandleVerifyReceiverDelegate;
 	}
 	
 	protected virtual bool HandleVerifyReceiverDelegate (object receiver){

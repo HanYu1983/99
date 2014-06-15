@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public interface IDeck : IDeckPlayer
+public interface IDeck : IDeckPlayer, IEventSender
 {
 	bool IsEmpty{ get; }
 	void Shuffle();

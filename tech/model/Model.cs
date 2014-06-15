@@ -2,12 +2,15 @@
 using System.Collections;
 using System.Linq;
 
-public class Model : SenderAdapter, IModel, IDeckDelegate, ICardAbilityReceiver {
+public class Model : SenderAdapter, IModel, IDeckDelegate, ICardAbilityReceiver, IMatchDelegate, IPlayerDelegate {
 	IMatch _match = new Match();
-	IEntityManager _entityManager;
 
 	public void StartMatch(){
 		_match.StartMatch ();
+	}
+
+	public void OnCurrentPlayerChange(IMatch match, IOption<IPlayer> player){
+
 	}
 
 	public void OnPlayerDraw(IDeck deck, IDeckPlayer player, ICard card){
@@ -20,7 +23,15 @@ public class Model : SenderAdapter, IModel, IDeckDelegate, ICardAbilityReceiver 
 		}
 	}
 
-	public IDeckPlayer CardOwner{ get{ return null; } }
+	public void OnPlayerWillPushCard(IPlayer player, ICard card){
+		player.Match.CenterDeck.Push (player, card);
+	}
+
+	public void OnPlayerWillDrawCard(IPlayer player){
+		player.Match.Deck.Draw (player);
+	}
+
+	public IDeckPlayer CardOwner{ get{ return _match.CurrentPlayer.Instance; } }
 	public Direction Direction{ 
 		get{ return _match.GameState.Direction; }
 		set{ 
@@ -31,18 +42,16 @@ public class Model : SenderAdapter, IModel, IDeckDelegate, ICardAbilityReceiver 
 		} 
 	}
 	public void AddNumber(int number){ 
-		_match.GameState.AddNumber (number);
+		ICardAbilityReceiver car = _match.GameState as ICardAbilityReceiver;
+		if (car != null) {
+			car.AddNumber(number);
+		}
 		Pass (null);
 	}
 	public void Pass(IDeckPlayer owner){
 		IPlayer player = owner as IPlayer;
 		if (player != null) {
-
-			IOption<IPlayer> next = _entityManager.GetEntity<IPlayer>(player.EntityID);
-			_match.CurrentPlayer = next;
 		}
-
-
 	}
 	public void FullNumber(){
 		ICardAbilityReceiver car = _match.GameState as ICardAbilityReceiver;
