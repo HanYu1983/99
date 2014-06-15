@@ -27,7 +27,7 @@ public class HandView : MonoBehaviour{
 		c.transform.parent = this.transform;
 		c.GetComponent<CardViewConfig> ().cardModel = cardModel;
 		_ary_card.Add (c);
-		Debug.Log ("DDD");
+		//Debug.Log ("DDD");
 		replaceCard ();
 	}
 

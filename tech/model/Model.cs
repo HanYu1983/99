@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 
 public class Model : SenderMono, IModel, IDeckDelegate, ICardAbilityReceiver, IMatchDelegate, IPlayerDelegate {
-	IMatch _match = new Match();
+	IMatch _match = EntityManager.Singleton.Create<Match> ();
 
 	public void StartGame(){
 		_match.StartMatch ();

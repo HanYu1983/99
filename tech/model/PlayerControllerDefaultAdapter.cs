@@ -26,5 +26,9 @@ public class PlayerControllerDefaultAdapter : SenderAdapter, IPlayerController
 	public virtual void ControlNumber(int number, IDeckPlayer owner){
 
 	}
-	protected bool IsMyTurn{ get{ return Owner.Match.CurrentPlayer.Instance == Owner; } }
+	protected bool IsMyTurn{ 
+		get{ 
+			return Owner.Match.CurrentPlayer.Instance == Owner; 
+		}
+	}
 }

@@ -1,19 +1,26 @@
 using UnityEngine;
 using System.Collections;
 
-public class AIPlayerController : PlayerControllerDefaultAdapter, IMatchDelegate
+public class AIPlayerController : PlayerControllerDefaultAdapter, IMatchDelegate, IInjectUpdate
 {
+	AIThinkingData _thinking = new AIThinkingData();
+
 	public void OnCurrentPlayerChange(IMatch match, IOption<IPlayer> player){
 		if (match == Owner.Match) {
 			bool isTurnToMe = player.Instance == Owner;
 			if (isTurnToMe) {
+				_thinking.Match = match;
 				Owner.DrawCard();
 			}
 		}
 	}
-	public void OnUpdate(){
+	public void OnUpdate(object sender){
 		if (IsMyTurn) {
-			//Owner.Match.CurrentPlayer = Owner.Match.NextPlayer;
+			if(Owner.Cards.Count>0)
+				Owner.PushCard(Owner.Cards[0]);
+
+
+			Owner.Match.CurrentPlayer = Owner.Match.NextPlayer;
 		}
 	}
 	public override void AssignPlayer(IDeckPlayer owner){

@@ -58,6 +58,11 @@ public class Controller :
 		IPlayer p3 = EntityManager.Singleton.Create<Player> ((int)EnumEntityID.Player3);
 		IPlayer p4 = EntityManager.Singleton.Create<Player> ((int)EnumEntityID.Player4);
 
+		p.Controller = EntityManager.Singleton.Create<AIPlayerController> ();
+		p2.Controller = EntityManager.Singleton.Create<AIPlayerController> ();
+		p3.Controller = EntityManager.Singleton.Create<AIPlayerController> ();
+		p4.Controller = EntityManager.Singleton.Create<AIPlayerController> ();
+
 		_model.PlayerJoin (EntityManager.Singleton.GetEntity<IPlayer>(p.EntityID));
 		_model.PlayerJoin (EntityManager.Singleton.GetEntity<IPlayer>(p2.EntityID));
 		_model.PlayerJoin (EntityManager.Singleton.GetEntity<IPlayer>(p3.EntityID));
@@ -88,11 +93,11 @@ public class Controller :
 
 	//model----------------------------------------
 	public void OnPlayerDraw(IDeck deck, IDeckPlayer player, ICard card){
-		Debug.Log ("OnPlayerDraw "+card);
+		//Debug.Log ("OnPlayerDraw "+card);
 		view.AddCard (deck, player, card);
 	}
 	public void OnCardPush(IDeck deck, IDeckPlayer player, ICard card){
-		Debug.Log ("OnCardPush "+card);
+		//Debug.Log ("OnCardPush "+card);
 		view.PushCardToStack (deck, player, card);
 	}
 	public void OnCurrentPlayerChange(IMatch match, IOption<IPlayer> player){

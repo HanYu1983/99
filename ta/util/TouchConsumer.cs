@@ -4,7 +4,7 @@ using System.Collections;
 public class TouchConsumer : MonoBehaviour {
 
 	void onMouseDown(){
-		Debug.Log( transform.name );
+		//Debug.Log( transform.name );
 		SendMessageUpwards ("onTouchConsumerEventMouseDown", transform.name,SendMessageOptions.DontRequireReceiver);
 	}
 	

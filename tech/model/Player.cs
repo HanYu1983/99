@@ -5,7 +5,13 @@ using System.Linq;
 public class Player : SenderAdapter, IPlayer
 {
 	IPlayerController _controller;
-	public IPlayerController Controller{ get{ return _controller; } set{ _controller = value; } }
+	public IPlayerController Controller{ 
+		get{ return _controller; } 
+		set{
+			_controller = value; 
+			_controller.Owner = this;
+		} 
+	}
 	
 	IOption<IPlayer> _next, _prev; 
 	public IOption<IPlayer> Next{ get{ return _next; } set{ _next = value; } }
