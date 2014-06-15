@@ -15,7 +15,7 @@ public interface IOption<ObjType>{
 
 	ObjType Instance{ get; }
 	
-	IOption<ObjType> Map(Func<ObjType, Void> fun);
+	IOption<ObjType> Map(Action<ObjType> fun);
 	
 	IOption<TargetType> FlatMap <TargetType> (Func<ObjType, IOption<TargetType>> fun);
 	
@@ -30,7 +30,7 @@ public interface IOptionContainer{
 
 public abstract class AbstractOption<ObjType> : IOption<ObjType>{
 	public abstract ObjType Instance{ get; }
-	public IOption<ObjType> Map(Func<ObjType, Void> fun){
+	public IOption<ObjType> Map(Action<ObjType> fun){
 		if( !IsDeleted )
 			fun(Instance);
 		return this;

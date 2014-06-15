@@ -6,7 +6,10 @@ public class EntityManager : IEntityManager
 {
 	public static IEntityManager Singleton = new EntityManager();
 	Dictionary<int, IEntity> _entities = new Dictionary<int, IEntity>();
-	public T Create<T>(int id = -1) where T : IEntity, new(){
+	public T Create<T>() where T : IEntity, new(){
+		return Create<T> (-1);
+	}
+	public T Create<T>(int id) where T : IEntity, new(){
 		T ret = new T ();
 		Register (ret);
 		return ret;
