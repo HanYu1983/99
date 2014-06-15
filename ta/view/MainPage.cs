@@ -29,6 +29,5 @@ public class MainPage : SenderMono {
 
 	protected override bool HandleVerifyReceiverDelegate (object receiver){
 		return receiver is IMainPageDelegate;
-		//return typeof(IMainPageDelegate).IsAssignableFrom (receiver.GetType ());
 	}
 }

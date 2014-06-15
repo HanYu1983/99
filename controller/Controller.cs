@@ -7,13 +7,13 @@ public class Controller : ReceiverMono, IViewInject, IMainPageDelegate, IPausePa
 	public IView view{ set { _view = value; } get { return _view; } }
 
 	public void onMainPageBtnStartClick(object sender){
-		view.closeTargetPage ( UIType.MainPage );
-		view.openTargetPage ( UIType.PlayPage );
+		view.CloseTargetPage ( UIType.MainPage );
+		view.OpenTargetPage ( UIType.PlayPage );
 	}
 
 	public void onMainPageBtnRankClick(object sender){
-		view.closeTargetPage ( UIType.MainPage);
-		view.openTargetPage ( UIType.RankPage);
+		view.CloseTargetPage ( UIType.MainPage);
+		view.OpenTargetPage ( UIType.RankPage);
 	}
 
 	public void onMainPageBtnQuitClick(object sender){
@@ -21,43 +21,43 @@ public class Controller : ReceiverMono, IViewInject, IMainPageDelegate, IPausePa
 	}
 
 	public void onPausePanelBtnResumeClick (object sender){
-		view.closeTargetPage (UIType.PausePanel);
+		view.CloseTargetPage (UIType.PausePanel);
 	}
 
 	public void onPausePanelBtnQuitClick (object sender){
-		view.closeTargetPage (UIType.PausePanel);
-		view.closeTargetPage (UIType.PlayPage);
-		view.openTargetPage (UIType.MainPage);
+		view.CloseTargetPage (UIType.PausePanel);
+		view.CloseTargetPage (UIType.PlayPage);
+		view.OpenTargetPage (UIType.MainPage);
 	}
 
 	public void onPlayPageBtnPauseClick( object sender ){
 		Debug.Log ("onPlayPageBtnPauseClick");
-		view.openTargetPage(UIType.PausePanel );
+		view.OpenTargetPage(UIType.PausePanel );
 	}
 
 	public void onPlayPageBtnEnterClick( object sender ){
-		view.closeTargetPage (UIType.PlayPage);
-		view.openTargetPage (UIType.ResultPage);
+		view.CloseTargetPage (UIType.PlayPage);
+		view.OpenTargetPage (UIType.ResultPage);
 	}
 
 	public void onRankPageBtnQuitClick( object sender ){
-		view.closeTargetPage (UIType.RankPage);
-		view.openTargetPage (UIType.MainPage);
+		view.CloseTargetPage (UIType.RankPage);
+		view.OpenTargetPage (UIType.MainPage);
 	}
 
 	public void onResultPageBtnReplayClick( object sender ){
-		view.closeTargetPage (UIType.ResultPage);
-		view.openTargetPage (UIType.PlayPage);
+		view.CloseTargetPage (UIType.ResultPage);
+		view.OpenTargetPage (UIType.PlayPage);
 	}
 
 	public void onResultPageBtnRankClick( object sender ){
-		view.closeTargetPage (UIType.ResultPage);
-		view.openTargetPage (UIType.RankPage);
+		view.CloseTargetPage (UIType.ResultPage);
+		view.OpenTargetPage (UIType.RankPage);
 	}
 
 	public void onResultPageBtnQuitClick( object sender ){
-		view.closeTargetPage (UIType.ResultPage);
-		view.openTargetPage (UIType.MainPage);
+		view.CloseTargetPage (UIType.ResultPage);
+		view.OpenTargetPage (UIType.MainPage);
 	}
 }
 

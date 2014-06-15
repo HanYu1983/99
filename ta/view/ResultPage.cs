@@ -20,6 +20,6 @@ public class ResultPage : SenderMono {
 	}
 
 	protected override bool HandleVerifyReceiverDelegate (object receiver){
-		return typeof(IResultPageDelegate).IsAssignableFrom (receiver.GetType ());
+		return receiver is IResultPageDelegate;
 	}
 }

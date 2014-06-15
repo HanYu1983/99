@@ -4,14 +4,14 @@ using System.Linq;
 public class PlayPage : SenderMono {
 
 	GameObject hand;
-	GameObject container_hand;
+	public GameObject container_hand;
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
 
-		container_hand = GameObject.Find ("container_hand");
-		hand = (GameObject)Instantiate (PrefabSource.Hand, container_hand.transform.position, container_hand.transform.rotation);
-		hand.transform.parent = container_hand.transform;
+		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> (100).Instance;
+		hand = (GameObject)Instantiate (prefabSource.Hand, container_hand.transform.position, container_hand.transform.rotation);
+		hand.transform.parent = this.transform;
 
 		//StartCoroutine (delayAndPlay ());
 	}
@@ -39,6 +39,6 @@ public class PlayPage : SenderMono {
 	}
 
 	protected override bool HandleVerifyReceiverDelegate (object receiver){
-		return typeof(IPlayPageDelegate).IsAssignableFrom (receiver.GetType ());
+		return receiver is IPlayPageDelegate;
 	}
 }

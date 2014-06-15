@@ -5,13 +5,13 @@ public class HandView : MonoBehaviour{
 
 	ArrayList _ary_card = new ArrayList();
 	void Start(){
-		addCard (CardType.Club, 0);
-		addCard (CardType.Club, 1);
-		addCard (CardType.Club, 2);
-		addCard (CardType.Club, 3);
-		addCard (CardType.Club, 4);
-		addCard (CardType.Club, 5);
-		addCard (CardType.Club, 6);
+		addCard (Card.Club4);
+		addCard (Card.Diamond9);
+		addCard (Card.Heart8);
+		addCard (Card.Spade2);
+		addCard (Card.SpadeJ);
+		addCard (Card.Spade4);
+		addCard (Card.Diamond4);
 		replaceCard ();
 	}
 
@@ -19,11 +19,12 @@ public class HandView : MonoBehaviour{
 
 	}
 
-	public void addCard( CardType ct, int id){
-		GameObject c = (GameObject)Instantiate (PrefabSource.Card, transform.position, transform.rotation);
+	public void addCard( Card cardModel ){
+		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> (100).Instance;
+		GameObject c = (GameObject)Instantiate (prefabSource.Card );
 
 		c.transform.parent = this.transform;
-		c.GetComponent<CardView> ().init (ct, id);
+		c.GetComponent<CardViewConfig> ().cardModel = cardModel;
 		_ary_card.Add (c);
 	}
 
@@ -34,12 +35,12 @@ public class HandView : MonoBehaviour{
 			c = (GameObject)_ary_card[i];
 			//c.transform.position = new Vector3( -2, 3, 0 );
 			tx = i * ( 12 - _ary_card.Count ) * 15;
-			ty = -Mathf.Abs( ( i - _ary_card.Count / 2 ) ) * 4;
-			tr = -( Mathf.PI * (( i - _ary_card.Count / 2 ) * 1 ) / 180 );
-			iTween.MoveTo(c, iTween.Hash("x", tx / 100, "y", 0, "easeType", "spring", "loopType", "none", "delay", i * .1, "time", .5));
+			ty = -Mathf.Abs( ( i - _ary_card.Count / 2 ) ) * 6;
+			tr = -( Mathf.PI * (( i - _ary_card.Count / 2 ) * .6f ) / 180 );
+			iTween.MoveTo(c, iTween.Hash("x", tx / 100, "y", ty / 100, "easeType", "spring", "loopType", "none", "delay", i * .1, "time", .5));
 			iTween.FadeTo(c, iTween.Hash("alpha", 0, "time", 0));
 			iTween.FadeTo(c, iTween.Hash("alpha", 1, "time", 1, "delay", i *.1));
-			iTween.RotateBy( c, iTween.Hash("z", 1, "easeType", "spring", "loopType", "none", "delay", i * .1, "time", 1));
+			iTween.RotateBy( c, iTween.Hash("z", tr, "easeType", "spring", "loopType", "none", "delay", i * .1, "time", 1));
 		}
 	}
 	

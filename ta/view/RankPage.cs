@@ -14,6 +14,6 @@ public class RankPage : SenderMono {
 	}
 
 	protected override bool HandleVerifyReceiverDelegate (object receiver){
-		return typeof(IRankPageDelegate).IsAssignableFrom (receiver.GetType ());
+		return receiver is IRankPageDelegate;
 	}
 }

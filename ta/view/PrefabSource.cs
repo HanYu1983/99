@@ -1,16 +1,14 @@
 using UnityEngine;
 using System.Collections;
 
-public class PrefabSource : MonoBehaviour
+public class PrefabSource : ReceiverMono
 {
-	public GameObject mainPageGO;
-
-	public static GameObject MainPage = Resources.LoadAssetAtPath<GameObject> ( "Assets/gitAssets/ta/prefab/MainPage.prefab" ) ;
-	public static GameObject PlayPage = Resources.LoadAssetAtPath<GameObject> ( "Assets/gitAssets/ta/prefab/PlayPage.prefab" ) ;
-	public static GameObject RankPage = Resources.LoadAssetAtPath<GameObject> ( "Assets/gitAssets/ta/prefab/RankPage.prefab" ) ;
-	public static GameObject ResultPage = Resources.LoadAssetAtPath<GameObject> ( "Assets/gitAssets/ta/prefab/ResultPage.prefab" ) ;
-	public static GameObject PausePanel = Resources.LoadAssetAtPath<GameObject> ( "Assets/gitAssets/ta/prefab/PausePanel.prefab" ) ;
-	public static GameObject Card = Resources.LoadAssetAtPath<GameObject> ( "Assets/gitAssets/ta/prefab/sub/Card.prefab" ) ;
-	public static GameObject Hand = Resources.LoadAssetAtPath<GameObject> ( "Assets/gitAssets/ta/prefab/sub/Hand.prefab" ) ;
+	public GameObject MainPage;
+	public GameObject PlayPage;
+	public GameObject RankPage;
+	public GameObject ResultPage;
+	public GameObject PausePanel;
+	public GameObject Card;
+	public GameObject Hand;
 }
 
