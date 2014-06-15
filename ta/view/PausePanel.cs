@@ -19,6 +19,6 @@ public class PausePanel : SenderMono {
 	}
 
 	protected override bool HandleVerifyReceiverDelegate (object receiver){
-		return typeof(IPausePanelDelegate).IsAssignableFrom (receiver.GetType ());
+		return receiver is IPausePanelDelegate;
 	}
 }
