@@ -10,5 +10,6 @@ public class PrefabSource : ReceiverMono
 	public GameObject PausePanel;
 	public GameObject Card;
 	public GameObject Hand;
+	public GameObject Stack;
 }
 

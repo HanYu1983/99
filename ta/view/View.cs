@@ -19,7 +19,7 @@ public class View : SenderMono, IView {
 	public void AddCard( IDeck deck, IDeckPlayer player, ICard card ){
 		if (!pages.ContainsKey (UIType.PlayPage))	throw new UnityException ("You should at playPage");
 		PlayPage playPage = pages [UIType.PlayPage].GetComponent<PlayPage> ();
-		playPage.addCard (deck, player, card);
+		playPage.dealCard (deck, player, card);
 	}
 
 	public void PushCardToStack( IDeck deck, IDeckPlayer player, ICard card ){

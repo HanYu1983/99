@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 public class PlayPage : SenderMono {
 
-	GameObject hand;
+	Dictionary<int, GameObject> _hands = new Dictionary<int, GameObject> ();
+	GameObject _stack;
 	public GameObject container_hand;
+	public GameObject container_stack;
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
@@ -19,7 +22,24 @@ public class PlayPage : SenderMono {
 
 	}
 
+	public void dealCard( IDeck deck, IDeckPlayer player, ICard card  ){
+		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> (100).Instance;
+		if (_stack != null) {
+			_stack = (GameObject)Instantiate (prefabSource.Stack, container_stack.transform.position, container_stack.transform.rotation);
+			_stack.transform.parent = container_stack.transform;
+		}
+
+		if (!_hands.ContainsKey( player.EntityID )) {
+
+			GameObject handView = (GameObject)Instantiate (prefabSource.Hand, container_hand.transform.position, container_hand.transform.rotation);
+			handView.transform.parent = this.transform;
+			_hands.Add( player.EntityID, handView );
+		}
+		_hands[ player.EntityID ].GetComponent<HandView> ().addCard (card);
+	}
+
 	public void addCard( IDeck deck, IDeckPlayer player, ICard card ){
+		/*
 		Debug.Log ("player.EntityID: " + player.EntityID);
 		if (player.EntityID != 0) return;
 		if (hand == null) {
@@ -28,6 +48,7 @@ public class PlayPage : SenderMono {
 			hand.transform.parent = this.transform;
 		}
 		hand.GetComponent<HandView> ().addCard (card);
+*/
 	}
 	/*
 	IEnumerator delayAndPlay(){

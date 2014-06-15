@@ -28,7 +28,7 @@ public class HandView : MonoBehaviour{
 		c.GetComponent<CardViewConfig> ().cardModel = cardModel;
 		_ary_card.Add (c);
 		Debug.Log ("DDD");
-		if (_ary_card.Count == 4)	replaceCard ();
+		replaceCard ();
 	}
 
 	public void replaceCard(){
