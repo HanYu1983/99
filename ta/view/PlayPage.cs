@@ -26,7 +26,7 @@ public class PlayPage : SenderMono {
 	}
 
 	public void dealCard( IDeck deck, IDeckPlayer player, ICard card  ){
-		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> (100).Instance;
+		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> ((int)EnumEntityID.PrefabeSource).Instance;
 		if (_stack == null) {
 			_stack = (GameObject)Instantiate (prefabSource.Stack, container_stack.transform.position, container_stack.transform.rotation);
 			_stack.transform.parent = container_stack.transform;
@@ -54,7 +54,7 @@ public class PlayPage : SenderMono {
 		Debug.Log ("player.EntityID: " + player.EntityID);
 		if (player.EntityID != 0) return;
 		if (hand == null) {
-			PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> (100).Instance;
+			PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> ((int)EnumEntityID.PrefabeSource).Instance;
 			hand = (GameObject)Instantiate (prefabSource.Hand, container_hand.transform.position, container_hand.transform.rotation);
 			hand.transform.parent = this.transform;
 		}

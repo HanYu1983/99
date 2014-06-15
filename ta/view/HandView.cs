@@ -21,7 +21,7 @@ public class HandView : MonoBehaviour{
 	}
 
 	public void addCard( ICard cardModel ){
-		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> (100).Instance;
+		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> ((int)EnumEntityID.PrefabeSource).Instance;
 		GameObject c = (GameObject)Instantiate (prefabSource.Card, this.transform.position, this.transform.rotation);
 
 		c.transform.parent = this.transform;

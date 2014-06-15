@@ -30,7 +30,7 @@ public class View : SenderMono, IView {
 		if (pages.ContainsKey(pn))	return;
 		GameObject p = null;
 		GameObject layer = GameObject.Find ("View");
-		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> (100).Instance;
+		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> ((int)EnumEntityID.PrefabeSource).Instance;
 		switch (pn) {
 		case UIType.MainPage:
 			p = (GameObject)Instantiate( prefabSource.MainPage, layer.transform.position, layer.transform.rotation ); 
