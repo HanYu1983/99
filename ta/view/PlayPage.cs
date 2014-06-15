@@ -9,11 +9,25 @@ public class PlayPage : SenderMono {
 	protected override void Start () {
 		base.Start ();
 
-		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> (100).Instance;
-		hand = (GameObject)Instantiate (prefabSource.Hand, container_hand.transform.position, container_hand.transform.rotation);
-		hand.transform.parent = this.transform;
-
+		Sender.Receivers.ToList().ForEach( obj => {
+			((IPlayPageDelegate)obj).onPlayPageGameStart( this );
+		});
 		//StartCoroutine (delayAndPlay ());
+	}
+
+	public void gameStart(){
+
+	}
+
+	public void addCard( IDeck deck, IDeckPlayer player, ICard card ){
+		Debug.Log ("player.EntityID: " + player.EntityID);
+		if (player.EntityID != 0) return;
+		if (hand == null) {
+			PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> (100).Instance;
+			hand = (GameObject)Instantiate (prefabSource.Hand, container_hand.transform.position, container_hand.transform.rotation);
+			hand.transform.parent = this.transform;
+		}
+		hand.GetComponent<HandView> ().addCard (card);
 	}
 	/*
 	IEnumerator delayAndPlay(){

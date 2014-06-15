@@ -5,6 +5,7 @@ public class HandView : MonoBehaviour{
 
 	ArrayList _ary_card = new ArrayList();
 	void Start(){
+		/*
 		addCard (Card.Club4);
 		addCard (Card.Diamond9);
 		addCard (Card.Heart8);
@@ -12,20 +13,22 @@ public class HandView : MonoBehaviour{
 		addCard (Card.SpadeJ);
 		addCard (Card.Spade4);
 		addCard (Card.Diamond4);
-		replaceCard ();
+		replaceCard ();*/
 	}
 
 	void Update(){
 
 	}
 
-	public void addCard( Card cardModel ){
+	public void addCard( ICard cardModel ){
 		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> (100).Instance;
-		GameObject c = (GameObject)Instantiate (prefabSource.Card );
+		GameObject c = (GameObject)Instantiate (prefabSource.Card, this.transform.position, this.transform.rotation);
 
 		c.transform.parent = this.transform;
 		c.GetComponent<CardViewConfig> ().cardModel = cardModel;
 		_ary_card.Add (c);
+		Debug.Log ("DDD");
+		if (_ary_card.Count == 4)	replaceCard ();
 	}
 
 	public void replaceCard(){

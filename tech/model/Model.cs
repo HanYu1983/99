@@ -2,11 +2,15 @@
 using System.Collections;
 using System.Linq;
 
-public class Model : SenderAdapter, IModel, IDeckDelegate, ICardAbilityReceiver, IMatchDelegate, IPlayerDelegate {
+public class Model : SenderMono, IModel, IDeckDelegate, ICardAbilityReceiver, IMatchDelegate, IPlayerDelegate {
 	IMatch _match = new Match();
 
-	public void StartMatch(){
+	public void StartGame(){
 		_match.StartMatch ();
+	}
+
+	public void PlayerJoin(IOption<IPlayer> player){
+		_match.PlayerJoin (player);
 	}
 
 	public void OnCurrentPlayerChange(IMatch match, IOption<IPlayer> player){
@@ -72,5 +76,13 @@ public class Model : SenderAdapter, IModel, IDeckDelegate, ICardAbilityReceiver,
 			p.Controller.ControlNumber(number, owner);
 		}
 		Pass (null);
+	}
+
+	protected override bool HandleVerifyReceiverDelegate (object receiver){
+		bool isTarget = typeof(IInjectModel).IsAssignableFrom (receiver.GetType ());
+		if (isTarget) {
+			((IInjectModel)receiver).Model = this;
+		}
+		return false;
 	}
 }

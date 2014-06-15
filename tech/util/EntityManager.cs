@@ -11,6 +11,7 @@ public class EntityManager : IEntityManager
 	}
 	public T Create<T>(int id) where T : IEntity, new(){
 		T ret = new T ();
+		ret.EntityID = id;
 		Register (ret);
 		return ret;
 	}

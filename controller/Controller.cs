@@ -1,10 +1,22 @@
 using UnityEngine;
 using System.Collections;
 using System.Linq;
-public class Controller : ReceiverMono, IViewInject, IMainPageDelegate, IPausePanelDelegate, IPlayPageDelegate, IRankPageDelegate, IResultPageDelegate
+public class Controller :
+	ReceiverMono, 
+	IViewInject, 
+	IInjectModel,
+	IMainPageDelegate, 
+	IPausePanelDelegate, 
+	IPlayPageDelegate, 
+	IRankPageDelegate, 
+	IResultPageDelegate,
+	IDeckDelegate,
+	IMatchDelegate
 {
 	IView _view;
 	public IView view{ set { _view = value; } get { return _view; } }
+	IModel _model;
+	public IModel Model{ set { _model = value; } get { return _model; } }
 
 	public void onMainPageBtnStartClick(object sender){
 		view.CloseTargetPage ( UIType.MainPage );
@@ -40,6 +52,20 @@ public class Controller : ReceiverMono, IViewInject, IMainPageDelegate, IPausePa
 		view.OpenTargetPage (UIType.ResultPage);
 	}
 
+	public void onPlayPageGameStart( object sender ){
+		IPlayer p = EntityManager.Singleton.Create<Player> (0);
+		IPlayer p2 = EntityManager.Singleton.Create<Player> ();
+		IPlayer p3 = EntityManager.Singleton.Create<Player> ();
+		IPlayer p4 = EntityManager.Singleton.Create<Player> ();
+
+		_model.PlayerJoin (EntityManager.Singleton.GetEntity<IPlayer>(p.EntityID));
+		_model.PlayerJoin (EntityManager.Singleton.GetEntity<IPlayer>(p2.EntityID));
+		_model.PlayerJoin (EntityManager.Singleton.GetEntity<IPlayer>(p3.EntityID));
+		_model.PlayerJoin (EntityManager.Singleton.GetEntity<IPlayer>(p4.EntityID));
+
+		_model.StartGame ();
+	}
+
 	public void onRankPageBtnQuitClick( object sender ){
 		view.CloseTargetPage (UIType.RankPage);
 		view.OpenTargetPage (UIType.MainPage);
@@ -59,5 +85,20 @@ public class Controller : ReceiverMono, IViewInject, IMainPageDelegate, IPausePa
 		view.CloseTargetPage (UIType.ResultPage);
 		view.OpenTargetPage (UIType.MainPage);
 	}
+
+	//model----------------------------------------
+	public void OnPlayerDraw(IDeck deck, IDeckPlayer player, ICard card){
+		Debug.Log ("OnPlayerDraw "+card);
+		view.AddCard (deck, player, card);
+	}
+	public void OnCardPush(IDeck deck, IDeckPlayer player, ICard card){
+		Debug.Log ("OnCardPush "+card);
+		view.PushCardToStack (deck, player, card);
+	}
+	public void OnCurrentPlayerChange(IMatch match, IOption<IPlayer> player){
+
+	}
+
+
 }
 
