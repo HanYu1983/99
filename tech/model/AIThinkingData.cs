@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Linq;
 
-public class AIThinkingData : MonoBehaviour
+public class AIThinkingData
 {
 	IMatch _match;
 	internal IMatch Match{ get { return _match; } set { _match = value; } }
