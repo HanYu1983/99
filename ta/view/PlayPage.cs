@@ -13,6 +13,7 @@ public class PlayPage : SenderMono {
 	public GameObject container_stack;
 
 	private bool _onCardDown = false;
+	private Vector3 _oldCardPosition;
 	private Transform _cardTransform;
 
 	// Use this for initialization
@@ -63,19 +64,13 @@ public class PlayPage : SenderMono {
 	*/
 	// Update is called once per frame
 	void Update () {
-		if (_onCardDown) {
-			/*
-			Debug.Log ( Input.mousePosition );
-			var rayHit : RaycastHit;
-			if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), rayHit))
-			{
-				// where did the raycast hit in the world - position of rayhit
-				rayHitWorldPosition = rayHit.point;
-				print ("rayHit.point : " + rayHit.point + " (rayHitWorldPosition)");
-				mouseposX = rayHit.point.x;
-			}
-			yourObject.position.x = mouseposX;
-			_cardTransform.position = Input.mousePosition;*/
+		if (_onCardDown && _cardTransform ) {
+			Vector3 mp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			Vector3 op = _cardTransform.position;
+			Vector3 tp = ( mp - op ) * .2f;
+			op += tp;
+			op.z = _cardTransform.position.z;
+			_cardTransform.position = op;
 		}
 	}
 
@@ -90,8 +85,35 @@ public class PlayPage : SenderMono {
 		case "CardView":
 			_onCardDown = true;
 			_cardTransform = te.target;
-			Debug.Log ( te.target.GetComponent<CardViewConfig>().cardModel.ToString() );break;
+			_oldCardPosition = _cardTransform.position;
+			break;
 		}
+	}
+
+	void onTouchConsumerEventMouseUp( TouchEvent te ){
+		Vector3 mp = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+
+		Debug.Log (mp);
+		if (mp.y > 0)	sendCard ();
+		else returnCard();
+
+		_onCardDown = false;
+		_cardTransform = null;
+	}
+
+	void sendCard(){
+		if (_cardTransform == null )	return;
+		iTween.ScaleTo (_cardTransform.gameObject, iTween.Hash (	"x", 0,
+																	"y", 0,
+		                                           					"time", 1));
+		_hands[ (int)EnumEntityID.Player1 ].GetComponent<HandView> ().subCard (_cardTransform.gameObject);
+	}
+
+	void returnCard(){
+		if (_cardTransform == null )	return;
+		iTween.MoveTo (_cardTransform.gameObject, iTween.Hash (	"x", _oldCardPosition.x,
+		                                                        "y", _oldCardPosition.y,
+		                                                        "time", 1));
 	}
 
 	protected override bool HandleVerifyReceiverDelegate (object receiver){
