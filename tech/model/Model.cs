@@ -4,6 +4,8 @@ using System.Linq;
 
 public class Model : SenderMono, IModel, IDeckDelegate, ICardAbilityReceiver, IMatchDelegate, IPlayerDelegate {
 	IMatch _match = EntityManager.Singleton.Create<Match> ();
+	
+	public int GameNumber{ get{ return _match.GameState.CurrentNumber; } }
 
 	public void StartGame(){
 		_match.StartMatch ();
@@ -79,9 +81,11 @@ public class Model : SenderMono, IModel, IDeckDelegate, ICardAbilityReceiver, IM
 	}
 
 	protected override bool HandleVerifyReceiverDelegate (object receiver){
-		bool isTarget = typeof(IInjectModel).IsAssignableFrom (receiver.GetType ());
-		if (isTarget) {
+		if (receiver is IInjectModel) {
 			((IInjectModel)receiver).Model = this;
+		}
+		if(receiver is IInjectModelGetter){
+			((IInjectModelGetter)receiver).ModelGetter = this;
 		}
 		return false;
 	}

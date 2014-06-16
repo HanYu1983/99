@@ -11,7 +11,8 @@ public class Controller :
 	IRankPageDelegate, 
 	IResultPageDelegate,
 	IDeckDelegate,
-	IMatchDelegate
+	IMatchDelegate,
+	IGameStateDelegate
 {
 	IView _view;
 	public IView view{ set { _view = value; } get { return _view; } }
@@ -102,6 +103,14 @@ public class Controller :
 	}
 	public void OnCurrentPlayerChange(IMatch match, IOption<IPlayer> player){
 
+	}
+
+	public void OnGameNumberChanged(IGameState state, int number){
+		Debug.Log ("OnGameNumberChanged "+number);
+	}
+
+	public void OnDirectionChanged(IGameState state, Direction direction){
+		Debug.Log ("OnDirectionChanged "+direction);
 	}
 
 
