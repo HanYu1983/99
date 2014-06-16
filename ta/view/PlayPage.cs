@@ -59,11 +59,6 @@ public class PlayPage : SenderMono {
 		_hands[ player.EntityID ].GetComponent<HandView> ().addCard (card);
 	}
 
-	//玩家使用一張牌
-	public void SendCard( IDeck deck, IDeckPlayer player, ICard card ){
-
-	}
-
 	//把牌丟到牌堆上
 	public void PushCardToTable( IDeck deck, IDeckPlayer player, ICard card ){
 		if (_table == null) {
@@ -74,14 +69,7 @@ public class PlayPage : SenderMono {
 		_table.GetComponent<TableView> ().PushCardToTable (deck, player, card);
 		SendCard (player.EntityID, _hands[ player.EntityID ].GetComponent<HandView> ().getCardViewByModel (card));
 	}
-	/*
-	IEnumerator delayAndPlay(){
-		yield return new WaitForSeconds (3);
-		Sender.Receivers.ToList().ForEach( obj => {
-			((IPlayPageDelegate)obj).onPlayPageBtnEnterClick( this );
-		});
-	}
-	*/
+
 	// Update is called once per frame
 	void Update () {
 		if (_onCardDown && _cardTransform ) {
@@ -125,15 +113,23 @@ public class PlayPage : SenderMono {
 	void SendCard( int playerId, GameObject cardView ){
 		iTween.ScaleTo (cardView, iTween.Hash (	"x", 0,
 		                                        "y", 0,
-		                                        "time", 1));
+		                                        "time", 1,
+		                                       	"oncomplete","onSendCardAniComplete",
+		                                       	"oncompletetarget", this.gameObject,
+		                                       	"oncompleteparams", cardView));
 		_hands[ playerId ].GetComponent<HandView> ().subCard (cardView);
 	}
-	
+
+	//玩家不使用牌，牌退回來的動畫
 	void ReturnCard(){
 		if (_cardTransform == null )	return;
 		iTween.MoveTo (_cardTransform.gameObject, iTween.Hash (	"x", _oldCardPosition.x,
 		                                                        "y", _oldCardPosition.y,
 		                                                        "time", 1));
+	}
+
+	void onSendCardAniComplete( GameObject cv ){
+		Destroy (cv);
 	}
 
 	protected override bool HandleVerifyReceiverDelegate (object receiver){
