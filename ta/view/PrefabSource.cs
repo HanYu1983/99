@@ -12,5 +12,6 @@ public class PrefabSource : ReceiverMono
 	public GameObject Hand;
 	public GameObject Stack;
 	public GameObject Table;
+	public GameObject Score;
 }
 

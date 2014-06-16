@@ -106,11 +106,13 @@ public class Controller :
 	}
 
 	public void OnGameNumberChanged(IGameState state, int number){
-		Debug.Log ("OnGameNumberChanged "+number);
+		//Debug.Log ("OnGameNumberChanged "+number);
+		view.GameNumberChanged (state, number);
 	}
 
 	public void OnDirectionChanged(IGameState state, Direction direction){
-		Debug.Log ("OnDirectionChanged "+direction);
+		//Debug.Log ("OnDirectionChanged "+direction);
+		view.DirectionChanged (state, direction);
 	}
 
 

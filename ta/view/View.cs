@@ -28,6 +28,18 @@ public class View : SenderMono, IView {
 		playPage.PushCardToTable (deck, player, card);
 	}
 
+	public void GameNumberChanged(IGameState state, int number){
+		if (!pages.ContainsKey (UIType.PlayPage))	throw new UnityException ("You should at playPage");
+		PlayPage playPage = pages [UIType.PlayPage].GetComponent<PlayPage> ();
+		playPage.GameNumberChanged (state, number);
+	}
+	
+	public void DirectionChanged(IGameState state, Direction direction){
+		if (!pages.ContainsKey (UIType.PlayPage))	throw new UnityException ("You should at playPage");
+		PlayPage playPage = pages [UIType.PlayPage].GetComponent<PlayPage> ();
+		playPage.DirectionChanged (state, direction);
+	}
+
 	public void OpenTargetPage( UIType pn ){
 		if (pages.ContainsKey(pn))	return;
 		GameObject p = null;
