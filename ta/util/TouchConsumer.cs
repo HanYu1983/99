@@ -3,21 +3,17 @@ using System.Collections;
 
 public class TouchConsumer : MonoBehaviour {
 
+	public string eventName = "default";
+
 	void onMouseDown(){
-		//Debug.Log( transform.name );
-		SendMessageUpwards ("onTouchConsumerEventMouseDown", transform.name,SendMessageOptions.DontRequireReceiver);
+		if (eventName == "default")	eventName = this.transform.name;
+		Transform target = this.transform;
+		SendMessageUpwards ("onTouchConsumerEventMouseDown", new TouchEvent(eventName, target),SendMessageOptions.DontRequireReceiver);
 	}
 	
 	void onMouseUp(){
-		SendMessageUpwards ("onTouchConsumerEventMouseUp", transform.name,SendMessageOptions.DontRequireReceiver);
-	}
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		if (eventName == "default")	eventName = this.transform.name;
+		Transform target = this.transform;
+		SendMessageUpwards ("onTouchConsumerEventMouseUp", new TouchEvent(eventName, target),SendMessageOptions.DontRequireReceiver);
 	}
 }

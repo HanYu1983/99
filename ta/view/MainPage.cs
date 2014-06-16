@@ -3,8 +3,8 @@ using System.Collections;
 using System.Linq;
 public class MainPage : SenderMono {
 
-	void onTouchConsumerEventMouseDown( string en ){
-		switch (en) {
+	void onTouchConsumerEventMouseDown( TouchEvent te ){
+		switch (te.name) {
 			case "btn_start":
 			Sender.Receivers.ToList ().ForEach (obj => {
 				((IMainPageDelegate)obj).onMainPageBtnStartClick( this);

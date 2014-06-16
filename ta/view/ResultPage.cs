@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Linq;
 public class ResultPage : SenderMono {
-	void onTouchConsumerEventMouseDown( string en ){
-		switch (en) {
+	void onTouchConsumerEventMouseDown( TouchEvent te ){
+		switch (te.name) {
 		case "btn_replay":
 			Sender.Receivers.ToList().ForEach( obj => {
 				((IResultPageDelegate)obj).onResultPageBtnReplayClick( this );

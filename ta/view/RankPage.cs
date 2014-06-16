@@ -3,8 +3,8 @@ using System.Collections;
 using System.Linq;
 public class RankPage : SenderMono {
 
-	void onTouchConsumerEventMouseDown( string en ){
-		switch( en ){
+	void onTouchConsumerEventMouseDown( TouchEvent te ){
+		switch( te.name ){
 		case "btn_quit":
 			Sender.Receivers.ToList().ForEach( obj => {
 				((IRankPageDelegate)obj).onRankPageBtnQuitClick( this );
