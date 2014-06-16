@@ -6,11 +6,14 @@ public class PlayPage : SenderMono {
 
 	Dictionary<int, GameObject> _hands = new Dictionary<int, GameObject> ();
 	GameObject _stack;
+	GameObject _table;
+
 	public GameObject container_hand;
 	public GameObject container_hand2;
 	public GameObject container_hand3;
 	public GameObject container_hand4;
 	public GameObject container_stack;
+	public GameObject container_table;
 
 	private bool _onCardDown = false;
 	private Vector3 _oldCardPosition;
@@ -25,19 +28,20 @@ public class PlayPage : SenderMono {
 		});
 		//StartCoroutine (delayAndPlay ());
 	}
-	
-	public void dealCard( IDeck deck, IDeckPlayer player, ICard card  ){
+
+	//發牌給玩家
+	public void DealCard( IDeck deck, IDeckPlayer player, ICard card  ){
 		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> ((int)EnumEntityID.PrefabeSource).Instance;
 		if (_stack == null) {
 			_stack = (GameObject)Instantiate (prefabSource.Stack, container_stack.transform.position, container_stack.transform.rotation);
 			_stack.transform.parent = container_stack.transform;
 		}
 		_stack.GetComponent<StackView> ().dealCard (player, card);
-
-		addCard (deck, player, card);
+		AddCard (deck, player, card);
 	}
 
-	public void addCard( IDeck deck, IDeckPlayer player, ICard card ){
+	//玩家抽一張卡
+	public void AddCard( IDeck deck, IDeckPlayer player, ICard card ){
 		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> ((int)EnumEntityID.PrefabeSource).Instance;
 		GameObject layer = null;
 		if (!_hands.ContainsKey( player.EntityID )) {
@@ -54,14 +58,18 @@ public class PlayPage : SenderMono {
 		}
 		_hands[ player.EntityID ].GetComponent<HandView> ().addCard (card);
 	}
-	/*
-	IEnumerator delayAndPlay(){
-		yield return new WaitForSeconds (3);
-		Sender.Receivers.ToList().ForEach( obj => {
-			((IPlayPageDelegate)obj).onPlayPageBtnEnterClick( this );
-		});
+
+	//把牌丟到牌堆上
+	public void PushCardToTable( IDeck deck, IDeckPlayer player, ICard card ){
+		if (_table == null) {
+			PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> ((int)EnumEntityID.PrefabeSource).Instance;
+			_table = (GameObject)Instantiate( prefabSource.Table, container_table.transform.position, container_table.transform.rotation );
+			_table.transform.parent = container_table.transform;
+		}
+		_table.GetComponent<TableView> ().PushCardToTable (deck, player, card);
+		SendCard (player.EntityID, _hands[ player.EntityID ].GetComponent<HandView> ().getCardViewByModel (card));
 	}
-	*/
+
 	// Update is called once per frame
 	void Update () {
 		if (_onCardDown && _cardTransform ) {
@@ -94,26 +102,34 @@ public class PlayPage : SenderMono {
 		Vector3 mp = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 
 		Debug.Log (mp);
-		if (mp.y > 0)	sendCard ();
-		else returnCard();
+		if (mp.y > 0)	SendCard ( (int)EnumEntityID.Player1 ,_cardTransform.gameObject);
+		else ReturnCard();
 
 		_onCardDown = false;
 		_cardTransform = null;
 	}
 
-	void sendCard(){
-		if (_cardTransform == null )	return;
-		iTween.ScaleTo (_cardTransform.gameObject, iTween.Hash (	"x", 0,
-																	"y", 0,
-		                                           					"time", 1));
-		_hands[ (int)EnumEntityID.Player1 ].GetComponent<HandView> ().subCard (_cardTransform.gameObject);
+	//玩家使用一張牌
+	void SendCard( int playerId, GameObject cardView ){
+		iTween.ScaleTo (cardView, iTween.Hash (	"x", 0,
+		                                        "y", 0,
+		                                        "time", 1,
+		                                       	"oncomplete","onSendCardAniComplete",
+		                                       	"oncompletetarget", this.gameObject,
+		                                       	"oncompleteparams", cardView));
+		_hands[ playerId ].GetComponent<HandView> ().subCard (cardView);
 	}
 
-	void returnCard(){
+	//玩家不使用牌，牌退回來的動畫
+	void ReturnCard(){
 		if (_cardTransform == null )	return;
 		iTween.MoveTo (_cardTransform.gameObject, iTween.Hash (	"x", _oldCardPosition.x,
 		                                                        "y", _oldCardPosition.y,
 		                                                        "time", 1));
+	}
+
+	void onSendCardAniComplete( GameObject cv ){
+		Destroy (cv);
 	}
 
 	protected override bool HandleVerifyReceiverDelegate (object receiver){

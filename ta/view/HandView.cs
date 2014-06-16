@@ -21,6 +21,13 @@ public class HandView : MonoBehaviour{
 		replaceCard ();
 	}
 
+	public GameObject getCardViewByModel( ICard cardModel ){
+		foreach (GameObject go in _ary_card) {
+			if( go.GetComponent<CardViewConfig>().cardModel == cardModel )	return go;
+		}
+		return null;
+	}
+
 	public void replaceCard(){
 		GameObject c;
 		float tx, ty, tr;
