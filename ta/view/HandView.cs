@@ -28,7 +28,7 @@ public class HandView : MonoBehaviour{
 			c = (GameObject)_ary_card[i];
 			//c.transform.position = new Vector3( 0, 0, 100 );
 			//tx = i * ( 14 - _ary_card.Count ) * 30;
-			tx = i * 500;
+			tx = i * 800 / ( _ary_card.Count );
 			ty = -Mathf.Abs( ( i - _ary_card.Count / 2 ) ) * 6;
 			tr = -( Mathf.PI * (( i - _ary_card.Count / 2 ) * .6f ) / 180 );
 			iTween.MoveTo(c, iTween.Hash("x", tx / 100 + this.transform.position.x, 

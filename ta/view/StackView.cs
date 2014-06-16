@@ -13,6 +13,7 @@ public class StackView : MonoBehaviour {
 
 		GameObject cv = (GameObject)Instantiate (ps.Card, this.transform.position, this.transform.rotation);
 		cv.GetComponent<CardViewConfig> ().cardModel = card;
+		cv.transform.parent = this.transform;
 
 		Transform targetTransform = null;
 
@@ -22,8 +23,19 @@ public class StackView : MonoBehaviour {
 		case (int)EnumEntityID.Player3:targetTransform = container_hand3.transform;break;
 		case (int)EnumEntityID.Player4:targetTransform = container_hand4.transform;break;
 		}
-		iTween.MoveTo( (GameObject)cv, iTween.Hash("x", targetTransform.position.x,
-		                               "y", targetTransform.position.y,
-		                               "time", 1 ));
+		iTween.MoveTo ((GameObject)cv, iTween.Hash (	"x", targetTransform.position.x,
+						                               	"y", targetTransform.position.y,
+						                               	"time", 1));
+		iTween.FadeTo ((GameObject)cv, iTween.Hash (	"alpha", 0,
+		                                            	"time", 1,
+		                                          		"oncomplete", "onMoveToComplete",
+		                                            	"oncompletetarget", this.gameObject,
+		                                           		"oncompleteparams",(GameObject)cv));
+
+	}
+
+	public void onMoveToComplete( GameObject cardView){
+		Debug.Log ("onMoveToComplete");
+		Destroy (cardView);
 	}
 }
