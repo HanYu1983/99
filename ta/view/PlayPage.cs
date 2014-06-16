@@ -26,7 +26,7 @@ public class PlayPage : SenderMono {
 	}
 
 	public void dealCard( IDeck deck, IDeckPlayer player, ICard card  ){
-		/*
+
 		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> ((int)EnumEntityID.PrefabeSource).Instance;
 		if (_stack == null) {
 			_stack = (GameObject)Instantiate (prefabSource.Stack, container_stack.transform.position, container_stack.transform.rotation);
@@ -47,7 +47,7 @@ public class PlayPage : SenderMono {
 			handView.transform.parent = layer.transform;
 			_hands.Add( player.EntityID, handView );
 		}
-		_hands[ player.EntityID ].GetComponent<HandView> ().addCard (card);*/
+		_hands[ player.EntityID ].GetComponent<HandView> ().addCard (card);
 	}
 
 	public void addCard( IDeck deck, IDeckPlayer player, ICard card ){
@@ -76,12 +76,15 @@ public class PlayPage : SenderMono {
 	}
 
 	void onTouchConsumerEventMouseDown( TouchEvent te ){
+		Debug.Log (te.name);
 		switch (te.name) {
 		case "btn_pause":
 			Sender.Receivers.ToList().ForEach( obj => {
 				((IPlayPageDelegate)obj).onPlayPageBtnPauseClick( this );
 			});
 			break;
+		case "CardView":
+			Debug.Log ( te.target.GetComponent<CardViewConfig>().cardModel.ToString() );break;
 		}
 	}
 
