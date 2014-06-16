@@ -70,45 +70,6 @@ public class PlayPage : SenderMono {
 		SendCard (player.EntityID, _hands[ player.EntityID ].GetComponent<HandView> ().getCardViewByModel (card));
 	}
 
-	// Update is called once per frame
-	void Update () {
-		if (_onCardDown && _cardTransform ) {
-			Vector3 mp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			Vector3 op = _cardTransform.position;
-			Vector3 tp = ( mp - op ) * .2f;
-			op += tp;
-			op.z = _cardTransform.position.z;
-			_cardTransform.position = op;
-		}
-	}
-
-	void onTouchConsumerEventMouseDown( TouchEvent te ){
-		Debug.Log (te.name);
-		switch (te.name) {
-		case "btn_pause":
-			Sender.Receivers.ToList().ForEach( obj => {
-				((IPlayPageDelegate)obj).onPlayPageBtnPauseClick( this );
-			});
-			break;
-		case "CardView":
-			_onCardDown = true;
-			_cardTransform = te.target;
-			_oldCardPosition = _cardTransform.position;
-			break;
-		}
-	}
-
-	void onTouchConsumerEventMouseUp( TouchEvent te ){
-		Vector3 mp = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-
-		Debug.Log (mp);
-		if (mp.y > 0)	SendCard ( (int)EnumEntityID.Player1 ,_cardTransform.gameObject);
-		else ReturnCard();
-
-		_onCardDown = false;
-		_cardTransform = null;
-	}
-
 	//玩家使用一張牌
 	void SendCard( int playerId, GameObject cardView ){
 		iTween.ScaleTo (cardView, iTween.Hash (	"x", 0,
@@ -130,6 +91,45 @@ public class PlayPage : SenderMono {
 
 	void onSendCardAniComplete( GameObject cv ){
 		Destroy (cv);
+	}
+
+	// Update is called once per frame
+	void Update () {
+		if (_onCardDown && _cardTransform ) {
+			Vector3 mp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			Vector3 op = _cardTransform.position;
+			Vector3 tp = ( mp - op ) * .2f;
+			op += tp;
+			op.z = _cardTransform.position.z;
+			_cardTransform.position = op;
+		}
+	}
+	
+	void onTouchConsumerEventMouseDown( TouchEvent te ){
+		Debug.Log (te.name);
+		switch (te.name) {
+		case "btn_pause":
+			Sender.Receivers.ToList().ForEach( obj => {
+				((IPlayPageDelegate)obj).onPlayPageBtnPauseClick( this );
+			});
+			break;
+		case "CardView":
+			_onCardDown = true;
+			_cardTransform = te.target;
+			_oldCardPosition = _cardTransform.position;
+			break;
+		}
+	}
+	
+	void onTouchConsumerEventMouseUp( TouchEvent te ){
+		Vector3 mp = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+		
+		Debug.Log (mp);
+		if (mp.y > 0)	SendCard ( (int)EnumEntityID.Player1 ,_cardTransform.gameObject);
+		else ReturnCard();
+		
+		_onCardDown = false;
+		_cardTransform = null;
 	}
 
 	protected override bool HandleVerifyReceiverDelegate (object receiver){
