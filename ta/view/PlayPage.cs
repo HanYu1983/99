@@ -11,6 +11,10 @@ public class PlayPage : SenderMono {
 	public GameObject container_hand3;
 	public GameObject container_hand4;
 	public GameObject container_stack;
+
+	private bool _onCardDown = false;
+	private Transform _cardTransform;
+
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
@@ -20,13 +24,8 @@ public class PlayPage : SenderMono {
 		});
 		//StartCoroutine (delayAndPlay ());
 	}
-
-	public void gameStart(){
-
-	}
-
+	
 	public void dealCard( IDeck deck, IDeckPlayer player, ICard card  ){
-
 		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> ((int)EnumEntityID.PrefabeSource).Instance;
 		if (_stack == null) {
 			_stack = (GameObject)Instantiate (prefabSource.Stack, container_stack.transform.position, container_stack.transform.rotation);
@@ -34,6 +33,11 @@ public class PlayPage : SenderMono {
 		}
 		_stack.GetComponent<StackView> ().dealCard (player, card);
 
+		addCard (deck, player, card);
+	}
+
+	public void addCard( IDeck deck, IDeckPlayer player, ICard card ){
+		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> ((int)EnumEntityID.PrefabeSource).Instance;
 		GameObject layer = null;
 		if (!_hands.ContainsKey( player.EntityID )) {
 			switch( player.EntityID ){
@@ -42,25 +46,12 @@ public class PlayPage : SenderMono {
 			case (int)EnumEntityID.Player3:layer = container_hand3;break;
 			case (int)EnumEntityID.Player4:layer = container_hand4;break;
 			}
-
+			
 			GameObject handView = (GameObject)Instantiate (prefabSource.Hand, layer.transform.position, layer.transform.rotation);
 			handView.transform.parent = layer.transform;
 			_hands.Add( player.EntityID, handView );
 		}
 		_hands[ player.EntityID ].GetComponent<HandView> ().addCard (card);
-	}
-
-	public void addCard( IDeck deck, IDeckPlayer player, ICard card ){
-		/*
-		Debug.Log ("player.EntityID: " + player.EntityID);
-		if (player.EntityID != 0) return;
-		if (hand == null) {
-			PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> ((int)EnumEntityID.PrefabeSource).Instance;
-			hand = (GameObject)Instantiate (prefabSource.Hand, container_hand.transform.position, container_hand.transform.rotation);
-			hand.transform.parent = this.transform;
-		}
-		hand.GetComponent<HandView> ().addCard (card);
-*/
 	}
 	/*
 	IEnumerator delayAndPlay(){
@@ -72,7 +63,20 @@ public class PlayPage : SenderMono {
 	*/
 	// Update is called once per frame
 	void Update () {
-
+		if (_onCardDown) {
+			/*
+			Debug.Log ( Input.mousePosition );
+			var rayHit : RaycastHit;
+			if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), rayHit))
+			{
+				// where did the raycast hit in the world - position of rayhit
+				rayHitWorldPosition = rayHit.point;
+				print ("rayHit.point : " + rayHit.point + " (rayHitWorldPosition)");
+				mouseposX = rayHit.point.x;
+			}
+			yourObject.position.x = mouseposX;
+			_cardTransform.position = Input.mousePosition;*/
+		}
 	}
 
 	void onTouchConsumerEventMouseDown( TouchEvent te ){
@@ -84,6 +88,8 @@ public class PlayPage : SenderMono {
 			});
 			break;
 		case "CardView":
+			_onCardDown = true;
+			_cardTransform = te.target;
 			Debug.Log ( te.target.GetComponent<CardViewConfig>().cardModel.ToString() );break;
 		}
 	}
