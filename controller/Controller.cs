@@ -98,7 +98,7 @@ public class Controller :
 	}
 	public void OnCardPush(IDeck deck, IDeckPlayer player, ICard card){
 		//Debug.Log ("OnCardPush "+card);
-		view.PushCardToStack (deck, player, card);
+		view.PushCardToTable (deck, player, card);
 	}
 	public void OnCurrentPlayerChange(IMatch match, IOption<IPlayer> player){
 
