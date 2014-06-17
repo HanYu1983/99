@@ -96,7 +96,6 @@ public class PlayPage : SenderMono {
 	}
 	
 	void onTouchConsumerEventMouseDown( TouchEvent te ){
-		Debug.Log (te.name);
 		switch (te.name) {
 		case "btn_pause":
 			Sender.Receivers.ToList().ForEach( obj => {
