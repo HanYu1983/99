@@ -2,8 +2,6 @@
 using System.Collections;
 
 public class PlayerBorder : MonoBehaviour {
-
-//	public GameObject go_playerHand;
 	public GameObject go_playPage;
 
 	Vector3 _mouseDownPosition;

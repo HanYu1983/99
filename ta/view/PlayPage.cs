@@ -14,11 +14,7 @@ public class PlayPage : SenderMono {
 	public GameObject go_table;
 	public GameObject go_score;
 	public GameObject go_playerBorder;
-
-	//private bool _onCardDown = false;
-	//private Vector3 _oldCardPosition;
-	//private Transform _cardTransform;
-
+	
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
@@ -48,7 +44,11 @@ public class PlayPage : SenderMono {
 	//把牌丟到牌堆上
 	public void PushCardToTable( IDeck deck, IDeckPlayer player, ICard card ){
 		go_table.GetComponent<TableView> ().PushCardToTable (deck, player, card);
-		//SendCard (player.EntityID, _hands[ player.EntityID ].GetComponent<HandView> ().getCardViewByModel (card));
+
+		//因為玩家自己丟出牌的動畫已經經由操作執行了，這時只需要執行其他玩家的動畫就可以了
+		//當玩家也是ai的時候，先mark掉來測試
+		//if( player.EntityID != (int)EnumEntityID.Player1 )
+			SendCard (player.EntityID, _hands[ player.EntityID ].GetComponent<HandView> ().getCardViewByModel (card));
 	}
 
 	//改變目前數字
@@ -72,44 +72,23 @@ public class PlayPage : SenderMono {
 		_hands[ playerId ].GetComponent<HandView> ().subCard (cardView);
 	}
 
+	//由border所傳進來的touch Y 事件
 	public void moveCardByBorder( float moveY ){
 		go_hand.GetComponent<HandView> ().moveCardByBorder (moveY);
 	}
-	
+
+	//由border所傳進來的focus card事件
 	public void focusCardByBorderPer( float per ){
 		go_hand.GetComponent<HandView> ().focusCardByBorderPer (per);
 	}
-	
+
+	//由border所傳進來的release card事件
 	public void releaseCardByBorder( float moveY ){
 		go_hand.GetComponent<HandView> ().releaseCardByBorder (moveY);
 	}
 
 	void onSendCardAniComplete( GameObject cv ){
 		Destroy (cv);
-	}
-
-	//玩家不使用牌，牌退回來的動畫
-	/*
-	void ReturnCard(){
-		if (_cardTransform == null )	return;
-		iTween.MoveTo (_cardTransform.gameObject, iTween.Hash (	"x", _oldCardPosition.x,
-		                                                        "y", _oldCardPosition.y,
-		                                                        "time", 1));
-	}*/
-
-
-
-	// Update is called once per frame
-	void Update () {
-		/*
-		if (_onCardDown && _cardTransform ) {
-			Vector3 mp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			Vector3 op = _cardTransform.position;
-			Vector3 tp = ( mp - op ) * .2f;
-			op += tp;
-			op.z = _cardTransform.position.z;
-			_cardTransform.position = op;
-		}*/
 	}
 	
 	void onTouchConsumerEventMouseDown( TouchEvent te ){
@@ -118,25 +97,10 @@ public class PlayPage : SenderMono {
 			Sender.Receivers.ToList().ForEach( obj => {
 				((IPlayPageDelegate)obj).onPlayPageBtnPauseClick( this );
 			});
-			break;/*
-		case "CardView":
-			_onCardDown = true;
-			_cardTransform = te.target;
-			_oldCardPosition = _cardTransform.position;
-			break;*/
+			break;
 		}
 	}
-	/*
-	void onTouchConsumerEventMouseUp( TouchEvent te ){
-		Vector3 mp = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 
-		if (mp.y > 0)	SendCard ( (int)EnumEntityID.Player1 ,_cardTransform.gameObject);
-		else ReturnCard();
-		
-		_onCardDown = false;
-		_cardTransform = null;
-	}
-*/
 	protected override bool HandleVerifyReceiverDelegate (object receiver){
 		return receiver is IPlayPageDelegate;
 	}

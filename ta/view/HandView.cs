@@ -76,7 +76,7 @@ public class HandView : MonoBehaviour{
 	}
 
 	void activeFocusAnimation(){
-		if (_currentFocusId != 999) {
+		//if (_currentFocusId != 999) {
 			for( int i = 0; i < _ary_card.Count; ++i ){
 				GameObject cv = (GameObject)_ary_card[i];
 				Vector3 targetScale;
@@ -98,7 +98,7 @@ public class HandView : MonoBehaviour{
 				                                    	_oldY,
 				                                   		cv.transform.position.z );
 			}
-		}
+		//}
 	}
 }
 
