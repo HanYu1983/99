@@ -72,6 +72,18 @@ public class PlayPage : SenderMono {
 		_hands[ playerId ].GetComponent<HandView> ().subCard (cardView);
 	}
 
+	public void moveCardByBorder( float moveY ){
+		go_hand.GetComponent<HandView> ().moveCardByBorder (moveY);
+	}
+	
+	public void focusCardByBorderPer( float per ){
+		go_hand.GetComponent<HandView> ().focusCardByBorderPer (per);
+	}
+	
+	public void releaseCardByBorder( float moveY ){
+		go_hand.GetComponent<HandView> ().releaseCardByBorder (moveY);
+	}
+
 	void onSendCardAniComplete( GameObject cv ){
 		Destroy (cv);
 	}

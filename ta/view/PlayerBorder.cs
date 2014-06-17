@@ -3,7 +3,8 @@ using System.Collections;
 
 public class PlayerBorder : MonoBehaviour {
 
-	public GameObject go_playerHand;
+//	public GameObject go_playerHand;
+	public GameObject go_playPage;
 
 	Vector3 _mouseDownPosition;
 	Vector3 _currentMousePoisition;
@@ -14,8 +15,8 @@ public class PlayerBorder : MonoBehaviour {
 		if (_mouseDown) {
 			_currentMousePoisition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			float per = _currentMousePoisition.x / _borderMax;
-			go_playerHand.GetComponent<HandView>().focusCardByBorderPer( per );
-			go_playerHand.GetComponent<HandView>().moveCardByBorder( _currentMousePoisition.y - _mouseDownPosition.y );
+			go_playPage.GetComponent<PlayPage>().focusCardByBorderPer( per );
+			go_playPage.GetComponent<PlayPage>().moveCardByBorder( _currentMousePoisition.y - _mouseDownPosition.y );
 		}
 	}
 
@@ -26,6 +27,6 @@ public class PlayerBorder : MonoBehaviour {
 	
 	void onTouchConsumerEventMouseUp( TouchEvent te ){
 		_mouseDown = false;
-		go_playerHand.GetComponent<HandView> ().releaseCardByBorder ( _currentMousePoisition.y );
+		go_playPage.GetComponent<PlayPage> ().releaseCardByBorder ( _currentMousePoisition.y );
 	}
 }
