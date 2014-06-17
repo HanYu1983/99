@@ -3,11 +3,11 @@ using System.Collections;
 
 public class HandView : MonoBehaviour{
 
+	public GameObject prefabCard;
 	ArrayList _ary_card = new ArrayList();
 
 	public void addCard( ICard cardModel ){
-		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> ((int)EnumEntityID.PrefabeSource).Instance;
-		GameObject c = (GameObject)Instantiate (prefabSource.Card, this.transform.position, this.transform.rotation);
+		GameObject c = (GameObject)Instantiate (prefabCard, this.transform.position, this.transform.rotation);
 
 		c.transform.parent = this.transform;
 		c.GetComponent<CardViewConfig> ().cardModel = cardModel;

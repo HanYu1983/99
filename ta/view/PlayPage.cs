@@ -6,17 +6,13 @@ public class PlayPage : SenderMono {
 
 	Dictionary<int, GameObject> _hands = new Dictionary<int, GameObject> ();
 
-	GameObject _stack;//發牌的view
-	GameObject _table;//桌上的牌堆view
-	GameObject _score;//顯示分數view
-
-	public GameObject container_hand;
-	public GameObject container_hand2;
-	public GameObject container_hand3;
-	public GameObject container_hand4;
-	public GameObject container_stack;
-	public GameObject container_table;
-	public GameObject container_score;
+	public GameObject go_hand;
+	public GameObject go_hand2;
+	public GameObject go_hand3;
+	public GameObject go_hand4;
+	public GameObject go_stack;
+	public GameObject go_table;
+	public GameObject go_score;
 
 	private bool _onCardDown = false;
 	private Vector3 _oldCardPosition;
@@ -26,6 +22,11 @@ public class PlayPage : SenderMono {
 	protected override void Start () {
 		base.Start ();
 
+		_hands.Add( (int)EnumEntityID.Player1, go_hand );
+		_hands.Add( (int)EnumEntityID.Player2, go_hand2 );
+		_hands.Add( (int)EnumEntityID.Player3, go_hand3 );
+		_hands.Add( (int)EnumEntityID.Player4, go_hand4 );
+
 		Sender.Receivers.ToList().ForEach( obj => {
 			((IPlayPageDelegate)obj).onPlayPageGameStart( this );
 		});
@@ -34,48 +35,29 @@ public class PlayPage : SenderMono {
 
 	//發牌給玩家
 	public void DealCard( IDeck deck, IDeckPlayer player, ICard card  ){
-		InitGameObject ();
-		_stack.GetComponent<StackView> ().dealCard (player, card);
+		go_stack.GetComponent<StackView> ().dealCard (player, card);
 		AddCard (deck, player, card);
 	}
 
 	//玩家抽一張卡
 	public void AddCard( IDeck deck, IDeckPlayer player, ICard card ){
-		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> ((int)EnumEntityID.PrefabeSource).Instance;
-		GameObject layer = null;
-		if (!_hands.ContainsKey( player.EntityID )) {
-			switch( player.EntityID ){
-			case (int)EnumEntityID.Player1:layer = container_hand;break;
-			case (int)EnumEntityID.Player2:layer = container_hand2;break;
-			case (int)EnumEntityID.Player3:layer = container_hand3;break;
-			case (int)EnumEntityID.Player4:layer = container_hand4;break;
-			}
-			
-			GameObject handView = (GameObject)Instantiate (prefabSource.Hand, layer.transform.position, layer.transform.rotation);
-			handView.transform.parent = layer.transform;
-			_hands.Add( player.EntityID, handView );
-		}
 		_hands[ player.EntityID ].GetComponent<HandView> ().addCard (card);
 	}
 
 	//把牌丟到牌堆上
 	public void PushCardToTable( IDeck deck, IDeckPlayer player, ICard card ){
-		InitGameObject ();
-		_table.GetComponent<TableView> ().PushCardToTable (deck, player, card);
+		go_table.GetComponent<TableView> ().PushCardToTable (deck, player, card);
 		SendCard (player.EntityID, _hands[ player.EntityID ].GetComponent<HandView> ().getCardViewByModel (card));
 	}
 
 	//改變目前數字
 	public void GameNumberChanged(IGameState state, int number){
-		InitGameObject ();
-		Debug.Log ("GameNumberChanged: " + number);
-		_score.GetComponent<ScoreView> ().GameNumberChanged (state, number);
+		go_score.GetComponent<ScoreView> ().GameNumberChanged (state, number);
 	}
 
 	//改變玩家
 	public void DirectionChanged(IGameState state, Direction direction){
-		InitGameObject ();
-		_score.GetComponent<ScoreView> ().DirectionChanged (state, direction);
+		go_score.GetComponent<ScoreView> ().DirectionChanged (state, direction);
 	}
 
 	//玩家使用一張牌
@@ -99,23 +81,6 @@ public class PlayPage : SenderMono {
 
 	void onSendCardAniComplete( GameObject cv ){
 		Destroy (cv);
-	}
-
-	void InitGameObject(){
-		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> ((int)EnumEntityID.PrefabeSource).Instance;
-
-		if (_stack == null) {
-			_stack = (GameObject)Instantiate (prefabSource.Stack, container_stack.transform.position, container_stack.transform.rotation);
-			_stack.transform.parent = container_stack.transform;
-		}
-		if (_table == null) {
-			_table = (GameObject)Instantiate (prefabSource.Table, container_table.transform.position, container_table.transform.rotation);
-			_table.transform.parent = container_table.transform;
-		}
-		if (_score == null) {
-			_score = (GameObject)Instantiate( prefabSource.Score, container_score.transform.position, container_score.transform.rotation );
-			_score.transform.parent = container_score.transform;
-		}
 	}
 
 	// Update is called once per frame

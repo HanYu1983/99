@@ -8,10 +8,5 @@ public class PrefabSource : ReceiverMono
 	public GameObject RankPage;
 	public GameObject ResultPage;
 	public GameObject PausePanel;
-	public GameObject Card;
-	public GameObject Hand;
-	public GameObject Stack;
-	public GameObject Table;
-	public GameObject Score;
 }
 
