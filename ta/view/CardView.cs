@@ -13,11 +13,6 @@ public class CardView : MonoBehaviour {
 		_config = GetComponent<CardViewConfig> ();
 		setCard ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	public void setCard(){
 		_txt_name.text = getShowText (_config.cardModel.Number - 1);
