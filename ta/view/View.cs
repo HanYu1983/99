@@ -5,14 +5,15 @@ using System.Collections.Generic;
 public class View : SenderMono, IView {
 	Dictionary<UIType, GameObject> pages = new Dictionary<UIType, GameObject>();
 
+	public GameObject prefab_mainPage;
+	public GameObject prefab_playPage;
+	public GameObject prefab_rankPage;
+	public GameObject prefab_resultPage;
+	public GameObject prefab_pausePanel;
+
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
-		StartCoroutine (delayAndPlay ());
-	}
-
-	IEnumerator delayAndPlay(){
-		yield return new WaitForEndOfFrame ();
 		OpenTargetPage ( UIType.MainPage );
 	}
 
@@ -43,27 +44,25 @@ public class View : SenderMono, IView {
 	public void OpenTargetPage( UIType pn ){
 		if (pages.ContainsKey(pn))	return;
 		GameObject p = null;
-		GameObject layer = GameObject.Find ("View");
-		PrefabSource prefabSource = EntityManager.Singleton.GetEntity<PrefabSource> ((int)EnumEntityID.PrefabeSource).Instance;
 		switch (pn) {
 		case UIType.MainPage:
-			p = (GameObject)Instantiate( prefabSource.MainPage, layer.transform.position, layer.transform.rotation ); 
+			p = (GameObject)Instantiate( prefab_mainPage, this.transform.position, this.transform.rotation ); 
 			break;
 		case UIType.PlayPage:
-			p = (GameObject)Instantiate( prefabSource.PlayPage, layer.transform.position, layer.transform.rotation );
+			p = (GameObject)Instantiate( prefab_playPage, this.transform.position, this.transform.rotation );
 			break;
 		case UIType.ResultPage:
-			p = (GameObject)Instantiate( prefabSource.ResultPage, layer.transform.position, layer.transform.rotation );
+			p = (GameObject)Instantiate( prefab_resultPage, this.transform.position, this.transform.rotation );
 			break;
 		case UIType.RankPage:
-			p = (GameObject)Instantiate( prefabSource.RankPage, layer.transform.position, layer.transform.rotation );
+			p = (GameObject)Instantiate( prefab_rankPage, this.transform.position, this.transform.rotation );
 			break;
 		case UIType.PausePanel:
-			p = (GameObject)Instantiate( prefabSource.PausePanel, layer.transform.position, layer.transform.rotation );
+			p = (GameObject)Instantiate( prefab_pausePanel, this.transform.position, this.transform.rotation );
 			break;
 		default: break;
 		}
-		p.transform.parent = layer.transform;
+		p.transform.parent = this.transform;
 		pages.Add (pn, p);
 	}
 
