@@ -9,13 +9,19 @@ public class AIPlayerController : PlayerControllerDefaultAdapter, IMatchDelegate
 		if (match == Owner.Match) {
 			bool isTurnToMe = player.Instance == Owner;
 			if (isTurnToMe) {
-				_thinking.Match = match;
 				Owner.DrawCard();
 			}
 		}
 	}
 	public void OnUpdate(object sender){
 		if (IsMyTurn) {
+			_thinking.Match = Owner.Match;
+
+			if(_thinking.WillOutOf99(Owner)){
+				IPlayer leastCardPlayer = _thinking.LeastCardOfPlayer(Owner);
+				bool leastCardPlayerMaybeWillOutOf99 = leastCardPlayer.Cards.Count < 1;
+			}
+
 			if(Owner.Cards.Count>0)
 				Owner.PushCard(Owner.Cards[0]);
 
