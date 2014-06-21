@@ -18,7 +18,7 @@ public class TestMatchStart : TestMono
 		_match.PlayerJoin (EntityManager.Singleton.GetEntity<IPlayer>(_p4.EntityID));
 
 		_match.StartMatch ();
-		Assert (_match.MatchPhase == MatchPhase.Playing, "p1");
+		Assert (_match.MatchPhase == MatchPhase.Stop, "p1");
 		Assert (_p1.Cards.Count == 4, "2");
 		Assert (_p2.Cards.Count == 4, "3");
 		Assert (_p3.Cards.Count == 4, "4");
