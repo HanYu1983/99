@@ -3,36 +3,74 @@ using System.Collections;
 
 public class AIPlayerController : PlayerControllerDefaultAdapter, IMatchDelegate, IInjectUpdate
 {
-	AIThinkingData _thinking = new AIThinkingData();
+	IThinking _thinking;
+
+	IThinking Thinking{ 
+		get{
+			if(_thinking == null){
+				AIThinkingData think = new AIThinkingData();
+				think.Match = Owner.Match;
+				_thinking = think;
+			}
+			return _thinking;
+		}
+	}
 
 	public void OnCurrentPlayerChange(IMatch match, IOption<IPlayer> player){
 		if (match == Owner.Match) {
-			bool isTurnToMe = player.Instance == Owner;
+			bool isTurnToMe = player.Identity == Owner.EntityID;
 			if (isTurnToMe) {
+				Debug.Log("tune to "+player.Instance.EntityID);
 				Owner.DrawCard();
 			}
 		}
 	}
 	public void OnUpdate(object sender){
 		if (IsMyTurn) {
-			_thinking.Match = Owner.Match;
 
-			if(_thinking.WillOutOf99(Owner)){
-				IPlayer leastCardPlayer = _thinking.LeastCardOfPlayer(Owner);
-				bool leastCardPlayerMaybeWillOutOf99 = leastCardPlayer.Cards.Count < 1;
+			if(Owner.Match.MatchPhase == MatchPhase.Idle)
+				return;
+
+			if(Owner.Cards.Count == 0)
+				return;
+
+			if(Thinking.WillOutOf99(Owner)){
+				Debug.Log("WillOutOf99!!");
+				if( Thinking.HasSpecialCard(Owner) ){
+					Thinking.RandomCardButSpecial(Owner).Map((ICard card)=>{
+						Owner.PushCard(card);
+					});
+
+				}else{
+					Owner.ImDie();
+
+				}
+
+			}else{
+				if( Thinking.HasNormalCard(Owner) ){
+					IOption<ICard> cardOp = Thinking.SelectLargestCardNumberButNoOutOf99(Owner);
+					if(cardOp.IsDeleted){
+						ICard card = Thinking.RandomCard(Owner);
+						Owner.PushCard (card);
+					}else{
+						Owner.PushCard (cardOp.Instance);
+					}
+				}else{
+					ICard card = Thinking.RandomCard(Owner);
+					Owner.PushCard (card);
+				}
 			}
-
-			if(Owner.Cards.Count>0)
-				Owner.PushCard(Owner.Cards[0]);
-
-
-			Owner.Match.CurrentPlayer = Owner.Match.NextPlayer;
 		}
 	}
 	public override void AssignPlayer(IDeckPlayer owner){
-		
+		IPlayer player = Thinking.TheFewestCardPlayer;
+		Owner.Match.CurrentPlayer = EntityManager.Singleton.GetEntity<IPlayer>(player.EntityID);
 	}
 	public override void ControlNumber(int number, IDeckPlayer owner){
-		Owner.Match.GameState.AddNumber (number);
+		if(Owner.Match.GameState.CurrentNumber + number > 99){
+			Owner.Match.GameState.AddNumber (-number);
+		}else{
+			Owner.Match.GameState.AddNumber (number);
+		}
 	}
 }

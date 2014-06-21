@@ -9,11 +9,12 @@ public class Match : SenderAdapter, IMatch
 	IGameState _gameState = EntityManager.Singleton.Create<GameState>();
 	List<IOption<IPlayer>> _players = new List<IOption<IPlayer>> ();
 	IOption<IPlayer> _currentPlayer = Option<IPlayer>.None;
-
+	MatchPhase _matchPhase = MatchPhase.Idle;
 	public Match(){
 		Card.AllCard.ToList().ForEach(card=>_deck.AddCard(card));
 		_gameState.CenterDeck = _centerDeck;
 	}
+	public MatchPhase MatchPhase{ get{ return _matchPhase; } }
 	public override void OnEntityDestroy(IEntityManager mgr){
 		mgr.Destroy (_deck.EntityID);
 		mgr.Destroy (_centerDeck.EntityID);
@@ -75,9 +76,10 @@ public class Match : SenderAdapter, IMatch
 			});
 		});
 		CurrentPlayer = Players [0];
+		_matchPhase = MatchPhase.Playing;
 	}
 	public void EndMatch(){
-
+		_matchPhase = MatchPhase.Idle;
 	}
 	protected override bool HandleVerifyReceiverDelegate (object receiver){
 		return receiver is IMatchDelegate;

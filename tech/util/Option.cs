@@ -79,3 +79,18 @@ public class Option<ObjType> : AbstractOption<ObjType>
 
 	public static Option<ObjType> None = new Option<ObjType>(null, -1);
 }
+
+public class NullOption<ObjType> : AbstractOption<ObjType>{
+	ObjType _obj;
+	public NullOption(ObjType obj){
+		_obj = obj;
+	}
+	public override ObjType Instance{ get{ return _obj; } }
+	public override ObjType Or(ObjType def){
+		return _obj == null ? def : _obj;
+	}
+	public override bool IsDeleted{ get{ return _obj == null; } }
+	public override int Identity{ get{ return -1; } }
+}
+
+

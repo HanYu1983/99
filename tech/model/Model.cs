@@ -37,6 +37,11 @@ public class Model : SenderMono, IModel, IDeckDelegate, ICardAbilityReceiver, IM
 		player.Match.Deck.Draw (player);
 	}
 
+	public void OnPlayerDie(IPlayer player){
+		Debug.Log ("player die " + player.EntityID);
+		_match.EndMatch ();
+	}
+
 	public IDeckPlayer CardOwner{ get{ return _match.CurrentPlayer.Instance; } }
 	public Direction Direction{ 
 		get{ return _match.GameState.Direction; }
@@ -52,19 +57,21 @@ public class Model : SenderMono, IModel, IDeckDelegate, ICardAbilityReceiver, IM
 		if (car != null) {
 			car.AddNumber(number);
 		}
-		Pass (null);
+		_match.CurrentPlayer = _match.NextPlayer;
 	}
 	public void Pass(IDeckPlayer owner){
 		IPlayer player = owner as IPlayer;
 		if (player != null) {
+			player.Controller.Pass(owner);
 		}
+		_match.CurrentPlayer = _match.NextPlayer;
 	}
 	public void FullNumber(){
 		ICardAbilityReceiver car = _match.GameState as ICardAbilityReceiver;
 		if (car != null) {
 			car.FullNumber();
 		}
-		Pass (null);
+		_match.CurrentPlayer = _match.NextPlayer;
 	}
 	public void AssignPlayer(IDeckPlayer owner){
 		IPlayer p = owner as IPlayer;
@@ -77,7 +84,7 @@ public class Model : SenderMono, IModel, IDeckDelegate, ICardAbilityReceiver, IM
 		if (p != null) {
 			p.Controller.ControlNumber(number, owner);
 		}
-		Pass (null);
+		_match.CurrentPlayer = _match.NextPlayer;
 	}
 
 	protected override bool HandleVerifyReceiverDelegate (object receiver){

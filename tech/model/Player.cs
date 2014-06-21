@@ -49,6 +49,12 @@ public class Player : SenderAdapter, IPlayer
 		});
 	}
 
+	public void ImDie(){
+		Sender.Receivers.ToList ().ForEach (obj => {
+			((IPlayerDelegate)obj).OnPlayerDie(this);
+		});
+	}
+
 	protected override bool HandleVerifyReceiverDelegate (object receiver){
 		return receiver is IPlayerDelegate;
 	}

@@ -11,6 +11,8 @@ public class Card : ICard
 	public int Id { get{ return _id; }}
 	public int Number { get { return _number; } }
 	public CardAbility Ability{ get { return _ability; } }
+	public bool IsNormal{ get{ return _ability == CardAbility.Unknown; } }
+	public bool IsSpecial{ get{ return !IsNormal; } }
 	Card(CardType type, int number, CardAbility ability, int id){
 		_type = type;
 		_id = id;
