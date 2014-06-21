@@ -51,8 +51,16 @@ public class AIPlayerController : PlayerControllerDefaultAdapter, IMatchDelegate
 				if( Thinking.HasNormalCard(Owner) ){
 					IOption<ICard> cardOp = Thinking.SelectLargestCardNumberButNoOutOf99(Owner);
 					if(cardOp.IsDeleted){
-						ICard card = Thinking.RandomCard(Owner);
-						Owner.PushCard (card);
+						if( Thinking.HasSpecialCard(Owner) ){
+							Thinking.RandomCardButSpecial(Owner).Map((ICard card)=>{
+								Owner.PushCard(card);
+							});
+
+						}else{
+							Owner.ImDie();
+
+						}
+
 					}else{
 						Owner.PushCard (cardOp.Instance);
 					}
