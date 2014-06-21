@@ -34,6 +34,7 @@ public class Model : SenderMono, IModel, IDeckDelegate, ICardAbilityReceiver, IM
 	}
 
 	public void OnPlayerWillDrawCard(IPlayer player){
+		Debug.Log ("OnPlayerWillDrawCard "+player.Match.Deck.Peek(1)[0]);
 		player.Match.Deck.Draw (player);
 	}
 

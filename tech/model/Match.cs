@@ -68,13 +68,13 @@ public class Match : SenderAdapter, IMatch
 	}
 	public void StartMatch(){
 		MakePlayerCircleLink ();
-		_players.ForEach(op=>{
-			op.Map(player=>{
-				for(int i=0; i<4; ++i){
+		for(int i=0; i<4; ++i){
+			_players.ForEach(op=>{
+				op.Map(player=>{
 					_deck.Draw(player);
-				}
+				});
 			});
-		});
+		}
 		CurrentPlayer = Players [0];
 		_matchPhase = MatchPhase.Playing;
 	}
