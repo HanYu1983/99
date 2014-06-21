@@ -20,7 +20,6 @@ public class AIPlayerController : PlayerControllerDefaultAdapter, IMatchDelegate
 		if (match == Owner.Match) {
 			bool isTurnToMe = player.Identity == Owner.EntityID;
 			if (isTurnToMe) {
-				Debug.Log("tune to "+player.Instance.EntityID);
 				Owner.DrawCard();
 			}
 		}
@@ -31,11 +30,13 @@ public class AIPlayerController : PlayerControllerDefaultAdapter, IMatchDelegate
 			if(Owner.Match.MatchPhase == MatchPhase.Idle)
 				return;
 
+			if(Owner.Match.MatchPhase == MatchPhase.Stop)
+				return;
+
 			if(Owner.Cards.Count == 0)
 				return;
 
 			if(Thinking.WillOutOf99(Owner)){
-				Debug.Log("WillOutOf99!!");
 				if( Thinking.HasSpecialCard(Owner) ){
 					Thinking.RandomCardButSpecial(Owner).Map((ICard card)=>{
 						Owner.PushCard(card);

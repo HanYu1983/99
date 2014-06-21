@@ -94,27 +94,30 @@ public class Controller :
 
 	//model----------------------------------------
 	public void OnPlayerDraw(IDeck deck, IDeckPlayer player, ICard card){
-		//Debug.Log ("OnPlayerDraw "+card);
 		view.AddCard (deck, player, card);
 	}
+
 	public void OnCardPush(IDeck deck, IDeckPlayer player, ICard card){
-		//Debug.Log ("OnCardPush "+card);
 		view.PushCardToTable (deck, player, card);
 	}
-	public void OnCurrentPlayerChange(IMatch match, IOption<IPlayer> player){
 
+	public void OnCurrentPlayerChange(IMatch match, IOption<IPlayer> player){
+		if( match.MatchPhase == MatchPhase.Stop ){
+			StartCoroutine (DelayAndNextStep ());
+		}
+	}
+
+	IEnumerator DelayAndNextStep(){
+		yield return new WaitForSeconds (3);
+		_model.Step ();
 	}
 
 	public void OnGameNumberChanged(IGameState state, int number){
-		//Debug.Log ("OnGameNumberChanged "+number);
 		view.GameNumberChanged (state, number);
 	}
 
 	public void OnDirectionChanged(IGameState state, Direction direction){
-		//Debug.Log ("OnDirectionChanged "+direction);
 		view.DirectionChanged (state, direction);
 	}
-
-
+	
 }
-

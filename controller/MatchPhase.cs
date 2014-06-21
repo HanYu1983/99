@@ -4,5 +4,6 @@ using System.Collections;
 public enum MatchPhase
 {
 	Idle,
-	Playing
+	Playing,
+	Stop
 }

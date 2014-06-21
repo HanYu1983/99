@@ -4,5 +4,6 @@ using System.Collections;
 public interface IModel : IModelGetter
 {
 	void StartGame();
+	void Step();
 	void PlayerJoin(IOption<IPlayer> player);
 }

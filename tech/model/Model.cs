@@ -11,6 +11,10 @@ public class Model : SenderMono, IModel, IDeckDelegate, ICardAbilityReceiver, IM
 		_match.StartMatch ();
 	}
 
+	public void Step(){
+		_match.ContinuePlay ();
+	}
+
 	public void PlayerJoin(IOption<IPlayer> player){
 		_match.PlayerJoin (player);
 	}
@@ -34,7 +38,6 @@ public class Model : SenderMono, IModel, IDeckDelegate, ICardAbilityReceiver, IM
 	}
 
 	public void OnPlayerWillDrawCard(IPlayer player){
-		Debug.Log ("OnPlayerWillDrawCard "+player.Match.Deck.Peek(1)[0]);
 		player.Match.Deck.Draw (player);
 	}
 
