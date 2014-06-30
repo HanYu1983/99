@@ -66,7 +66,7 @@ public class HandView : MonoBehaviour{
 			                             "easeType", "spring", "loopType", "none", "delay", i * .1, "time", .5));
 			//iTween.FadeTo(c, iTween.Hash("alpha", 0, "time", 0));
 			//iTween.FadeTo(c, iTween.Hash("alpha", 1, "time", 1, "delay", i *.1));
-			//iTween.RotateBy( c, iTween.Hash("z", tr, "easeType", "spring", "loopType", "none", "delay", i * .1, "time", 1));
+			iTween.RotateBy( c, iTween.Hash("z", 1, "easeType", "spring", "loopType", "none", "delay", i * .1, "time", 1));
 			_normalY = c.transform.position.y;
 		}
 	}
