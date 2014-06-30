@@ -72,7 +72,7 @@ public class HandView : MonoBehaviour{
 	}
 
 	void Update(){
-		activeFocusAnimation ();
+		//activeFocusAnimation ();
 	}
 
 	void activeFocusAnimation(){
