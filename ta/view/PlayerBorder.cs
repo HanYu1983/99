@@ -8,13 +8,22 @@ public class PlayerBorder : MonoBehaviour {
 	Vector3 _currentMousePoisition;
 	private float _borderMax = 4;
 	private bool _mouseDown = false;
+	private PlayerBorderState _isPlayerState;
+	private PlayerBorderState _nonePlayerState;
+	private PlayerBorderState _currentState;
+
+	void Start(){
+		_isPlayerState = new PlayerTurnState (this);
+		_nonePlayerState = new NonePlayerTurnState (this);
+		_currentState = _isPlayerState;
+	}
 
 	void Update(){
 		if (_mouseDown) {
 			_currentMousePoisition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			float per = _currentMousePoisition.x / _borderMax;
-			go_playPage.GetComponent<PlayPage>().focusCardByBorderPer( per );
-			go_playPage.GetComponent<PlayPage>().moveCardByBorder( _currentMousePoisition.y - _mouseDownPosition.y );
+			go_playPage.GetComponent<PlayPage>().onPlayerFocusCardByBorderPer( per );
+			go_playPage.GetComponent<PlayPage>().onPlayerMoveCardByBorder( _currentMousePoisition.y - _mouseDownPosition.y );
 		}
 	}
 
@@ -25,6 +34,33 @@ public class PlayerBorder : MonoBehaviour {
 	
 	void onTouchConsumerEventMouseUp( TouchEvent te ){
 		_mouseDown = false;
-		go_playPage.GetComponent<PlayPage> ().releaseCardByBorder ( _currentMousePoisition.y );
+		_currentState.onTouchConsumerEventMouseUp ( _currentMousePoisition.y );
+	}
+
+	public void DirectionChanged(IGameState state, Direction direction){
+		Debug.Log (state.EntityID);
 	}
 }
+
+class PlayerBorderState{
+	private PlayerBorder _pb;
+	public PlayerBorderState( PlayerBorder pb){	_pb = pb;}
+	virtual public void onTouchConsumerEventMouseUp (float mouseY){}
+	protected PlayerBorder getPlayerBorder(){ return _pb; }
+}
+
+class PlayerTurnState : PlayerBorderState{
+	public PlayerTurnState( PlayerBorder pb):base( pb ){}
+	override public void onTouchConsumerEventMouseUp( float mouseY ){
+		if (mouseY > 0)	getPlayerBorder ().go_playPage.GetComponent<PlayPage> ().onPlayerSendCardByBorder ();
+		else getPlayerBorder ().go_playPage.GetComponent<PlayPage> ().onPlayerReleaseCardByBorder();
+	}
+}
+
+class NonePlayerTurnState : PlayerBorderState{
+	public NonePlayerTurnState( PlayerBorder pb):base( pb ){}
+	override public void onTouchConsumerEventMouseUp( float mouseY ){
+		getPlayerBorder ().go_playPage.GetComponent<PlayPage> ().onPlayerReleaseCardByBorder();
+	}
+}
+

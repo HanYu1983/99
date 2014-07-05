@@ -19,10 +19,10 @@ public class PlayPage : SenderMono {
 	protected override void Start () {
 		base.Start ();
 
-		//go_hand.GetComponent<HandView> ().playerId = (int)EnumEntityID.Player1;
-		//go_hand2.GetComponent<HandView> ().playerId = (int)EnumEntityID.Player2;
-		//go_hand3.GetComponent<HandView> ().playerId = (int)EnumEntityID.Player3;
-		//go_hand4.GetComponent<HandView> ().playerId = (int)EnumEntityID.Player4;
+		go_hand.GetComponent<HandView> ().playerId = (int)EnumEntityID.Player1;
+		go_hand2.GetComponent<HandView> ().playerId = (int)EnumEntityID.Player2;
+		go_hand3.GetComponent<HandView> ().playerId = (int)EnumEntityID.Player3;
+		go_hand4.GetComponent<HandView> ().playerId = (int)EnumEntityID.Player4;
 
 		_hands.Add( (int)EnumEntityID.Player1, go_hand );
 		_hands.Add( (int)EnumEntityID.Player2, go_hand2 );
@@ -60,6 +60,7 @@ public class PlayPage : SenderMono {
 	//改變玩家
 	public void DirectionChanged(IGameState state, Direction direction){
 		go_score.GetComponent<ScoreView> ().DirectionChanged (state, direction);
+		go_playerBorder.GetComponent<PlayerBorder>().DirectionChanged (state, direction);
 	}
 
 	//玩家使用一張牌
@@ -76,25 +77,30 @@ public class PlayPage : SenderMono {
 	}
 
 	//由border所傳進來的touch Y 事件
-	public void moveCardByBorder( float moveY ){
-		go_hand.GetComponent<HandView> ().moveCardByBorder (moveY);
+	public void onPlayerMoveCardByBorder( float moveY ){
+		go_hand.GetComponent<HandView> ().onPlayerMoveCardByPlayPage (moveY);
 	}
 
 	//由border所傳進來的focus card事件
-	public void focusCardByBorderPer( float per ){
-		go_hand.GetComponent<HandView> ().focusCardByBorderPer (per);
+	public void onPlayerFocusCardByBorderPer( float per ){
+		go_hand.GetComponent<HandView> ().onPlayerFocusCardByPlayerPagePer (per);
+	}
+	
+	//由border傳來的使用卡片事件
+	public void onPlayerSendCardByBorder(){
+		go_hand.GetComponent<HandView> ().onPlayerSendCardByPlayPage ();
 	}
 
-	//由border所傳進來的release card事件
-	public void releaseCardByBorder( float moveY ){
-		go_hand.GetComponent<HandView> ().releaseCardByBorder (moveY);
+	//由border傳來的不使用卡事件
+	public void onPlayerReleaseCardByBorder(){
+		go_hand.GetComponent<HandView> ().onPlayerReleaseCardByPlayPage ();
 	}
 
 	void onSendCardAniComplete( GameObject cv ){
-		Destroy (cv);
 		Sender.Receivers.ToList().ForEach( obj => {
 			((IPlayPageDelegate)obj).onPlayPageSendCard( this, cv.GetComponent<CardViewConfig>().cardModel );
 		});
+		Destroy (cv);
 	}
 	
 	void onTouchConsumerEventMouseDown( TouchEvent te ){

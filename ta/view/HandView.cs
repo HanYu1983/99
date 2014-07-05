@@ -13,8 +13,8 @@ public class HandView : MonoBehaviour{
 	float _choiseY;
 	float _normalY;
 	Vector3 _oldScale;
-	Vector3 _zoomInScale = new Vector3 (1.2f, 1.2f, 1.2f);
-	Vector3 _zoomOutScale = new Vector3 (1, 1, 1);
+	Vector3 _zoomInScale = new Vector3 (.9f, .9f, .9f);
+	Vector3 _zoomOutScale = new Vector3 (.7f, .7f, .7f);
 	ArrayList _ary_card = new ArrayList();
 
 	public void addCard( ICard cardModel ){
@@ -36,18 +36,22 @@ public class HandView : MonoBehaviour{
 		replaceCard ();
 	}
 
-	public void moveCardByBorder( float moveY ){
+	public void onPlayerMoveCardByPlayPage( float moveY ){
 		_choiseY = moveY + _normalY;
 	}
 
-	public void focusCardByBorderPer( float per ){
+	public void onPlayerFocusCardByPlayerPagePer( float per ){
 		_currentFocusId = (int)(per * _ary_card.Count + _ary_card.Count / 2);
 		if (_currentFocusId < 0)	_currentFocusId = 0;
 		else if( _currentFocusId > _ary_card.Count - 1 )	_currentFocusId = _ary_card.Count - 1;
 	}
 
-	public void releaseCardByBorder( float moveY ){
-		if (moveY > 0)	playPage.GetComponent<PlayPage> ().SendCard ((int)EnumEntityID.Player1, _currentFocusCardView);
+	public void onPlayerSendCardByPlayPage(){
+		playPage.GetComponent<PlayPage> ().SendCard ((int)EnumEntityID.Player1, _currentFocusCardView);
+		onPlayerReleaseCardByPlayPage ();
+	}
+
+	public void onPlayerReleaseCardByPlayPage(){
 		_currentFocusId = 999;
 		_currentFocusCardView = null;
 	}
@@ -84,6 +88,7 @@ public class HandView : MonoBehaviour{
 	}
 
 	void Update(){
+		if( playerId != (int)EnumEntityID.Player1 )	return;
 		activeFocusAnimation ();
 	}
 
