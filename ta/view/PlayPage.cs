@@ -63,13 +63,15 @@ public class PlayPage : SenderMono {
 
 	//玩家使用一張牌
 	public void SendCard( int playerId, GameObject cardView ){
-		iTween.ScaleTo (cardView, iTween.Hash (	"x", 0,
-		                                        "y", 0,
-		                                        "time", 1,
-		                                       	"oncomplete","onSendCardAniComplete",
-		                                       	"oncompletetarget", this.gameObject,
-		                                       	"oncompleteparams", cardView));
-		_hands[ playerId ].GetComponent<HandView> ().subCard (cardView);
+		if(cardView != null){
+			iTween.ScaleTo (cardView, iTween.Hash (	"x", 0,
+		    	                                    "y", 0,
+		        	                                "time", 1,
+		            	                           	"oncomplete","onSendCardAniComplete",
+		                	                       	"oncompletetarget", this.gameObject,
+		                    	                   	"oncompleteparams", cardView));
+			_hands[ playerId ].GetComponent<HandView> ().subCard (cardView);
+		}
 	}
 
 	//由border所傳進來的touch Y 事件

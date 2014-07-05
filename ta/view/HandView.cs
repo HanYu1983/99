@@ -26,6 +26,10 @@ public class HandView : MonoBehaviour{
 		replaceCard ();
 	}
 
+	public bool hasCard( CardView view ){
+		return _ary_card.IndexOf (view) != -1;
+	}
+
 	public void subCard( GameObject card ){
 		_ary_card.Remove (card);
 		replaceCard ();
@@ -79,7 +83,7 @@ public class HandView : MonoBehaviour{
 	}
 
 	void Update(){
-		//activeFocusAnimation ();
+		activeFocusAnimation ();
 	}
 
 	void activeFocusAnimation(){
