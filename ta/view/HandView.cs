@@ -56,17 +56,24 @@ public class HandView : MonoBehaviour{
 
 	public void replaceCard(){
 		GameObject c;
-		float tx, tr;
+		float tx, ty, tr;
 		for( int i = 0; i < _ary_card.Count; ++i ){
 			c = (GameObject)_ary_card[i];
-			tx = i * 800 / ( _ary_card.Count );
-			tr = -( Mathf.PI * (( i - _ary_card.Count / 2 ) * .6f ) / 180 );
+			tx = i * 300 / ( _ary_card.Count );
+			ty = Mathf.Abs( i - _ary_card.Count / 2 ) * -20;
+			tr = -(( i - _ary_card.Count / 2 ) * 10f );
+			c.transform.localPosition = new Vector3( tx / 100, ty / 100, c.transform.localPosition.z );
+			c.transform.localRotation = Quaternion.Euler( new Vector3( 0, 0, tr ));
+
+			/*
 			iTween.MoveTo(c, iTween.Hash("x", tx / 100 + this.transform.position.x, 
+			                             "y", ty / 100 + this.transform.position.y,
 			                             "z", this.transform.position.z - i,
 			                             "easeType", "spring", "loopType", "none", "delay", i * .1, "time", .5));
+			                             */
 			//iTween.FadeTo(c, iTween.Hash("alpha", 0, "time", 0));
 			//iTween.FadeTo(c, iTween.Hash("alpha", 1, "time", 1, "delay", i *.1));
-			iTween.RotateBy( c, iTween.Hash("z", 1, "easeType", "spring", "loopType", "none", "delay", i * .1, "time", 1));
+			//iTween.RotateBy( c, iTween.Hash("z", tr, "easeType", "spring", "loopType", "none", "delay", i * .1, "time", 1));
 			_normalY = c.transform.position.y;
 		}
 	}
