@@ -19,6 +19,11 @@ public class PlayPage : SenderMono {
 	protected override void Start () {
 		base.Start ();
 
+		//go_hand.GetComponent<HandView> ().playerId = (int)EnumEntityID.Player1;
+		//go_hand2.GetComponent<HandView> ().playerId = (int)EnumEntityID.Player2;
+		//go_hand3.GetComponent<HandView> ().playerId = (int)EnumEntityID.Player3;
+		//go_hand4.GetComponent<HandView> ().playerId = (int)EnumEntityID.Player4;
+
 		_hands.Add( (int)EnumEntityID.Player1, go_hand );
 		_hands.Add( (int)EnumEntityID.Player2, go_hand2 );
 		_hands.Add( (int)EnumEntityID.Player3, go_hand3 );
@@ -44,11 +49,7 @@ public class PlayPage : SenderMono {
 	//把牌丟到牌堆上
 	public void PushCardToTable( IDeck deck, IDeckPlayer player, ICard card ){
 		go_table.GetComponent<TableView> ().PushCardToTable (deck, player, card);
-
-		//因為玩家自己丟出牌的動畫已經經由操作執行了，這時只需要執行其他玩家的動畫就可以了
-		//當玩家也是ai的時候，先mark掉來測試
-		//if( player.EntityID != (int)EnumEntityID.Player1 )
-			SendCard (player.EntityID, _hands[ player.EntityID ].GetComponent<HandView> ().getCardViewByModel (card));
+		SendCard (player.EntityID, _hands[ player.EntityID ].GetComponent<HandView> ().getCardViewByModel (card));
 	}
 
 	//改變目前數字

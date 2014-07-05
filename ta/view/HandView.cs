@@ -5,9 +5,10 @@ public class HandView : MonoBehaviour{
 
 	public GameObject prefabCard;
 	public GameObject playPage;
+	public int playerId;
 
-	int _currentFocusId = 999;
 	GameObject _currentFocusCardView = null;
+	int _currentFocusId = 999;
 	float _oldY;
 	float _choiseY;
 	float _normalY;
