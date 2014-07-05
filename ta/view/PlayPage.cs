@@ -89,6 +89,9 @@ public class PlayPage : SenderMono {
 
 	void onSendCardAniComplete( GameObject cv ){
 		Destroy (cv);
+		Sender.Receivers.ToList().ForEach( obj => {
+			((IPlayPageDelegate)obj).onPlayPageSendCard( this, cv.GetComponent<CardViewConfig>().cardModel );
+		});
 	}
 	
 	void onTouchConsumerEventMouseDown( TouchEvent te ){

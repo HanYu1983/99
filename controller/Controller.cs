@@ -72,6 +72,10 @@ public class Controller :
 		_model.StartGame ();
 	}
 
+	public void onPlayPageSendCard( object sender, ICard cardModel){
+
+	}
+
 	public void onRankPageBtnQuitClick( object sender ){
 		view.CloseTargetPage (UIType.RankPage);
 		view.OpenTargetPage (UIType.MainPage);
