@@ -59,7 +59,7 @@ public class Controller :
 		IPlayer p3 = EntityManager.Singleton.Create<Player> ((int)EnumEntityID.Player3);
 		IPlayer p4 = EntityManager.Singleton.Create<Player> ((int)EnumEntityID.Player4);
 
-		p.Controller = EntityManager.Singleton.Create<AIPlayerController> ();
+		p.Controller = EntityManager.Singleton.Create<RealPlayerController> ();
 		p2.Controller = EntityManager.Singleton.Create<AIPlayerController> ();
 		p3.Controller = EntityManager.Singleton.Create<AIPlayerController> ();
 		p4.Controller = EntityManager.Singleton.Create<AIPlayerController> ();
