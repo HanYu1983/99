@@ -106,6 +106,7 @@ public class Controller :
 	}
 
 	public void OnCurrentPlayerChange(IMatch match, IOption<IPlayer> player){
+		view.OnCurrentPlayerChange (match, player);
 		if( match.MatchPhase == MatchPhase.Stop ){
 			StartCoroutine (DelayAndNextStep ());
 		}

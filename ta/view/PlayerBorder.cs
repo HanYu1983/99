@@ -37,8 +37,9 @@ public class PlayerBorder : MonoBehaviour {
 		_currentState.onTouchConsumerEventMouseUp ( _currentMousePoisition.y );
 	}
 
-	public void DirectionChanged(IGameState state, Direction direction){
-		Debug.Log (state.EntityID);
+	public void OnCurrentPlayerChange(IMatch match, IOption<IPlayer> player){
+		if (match.CurrentPlayer.Identity == (int)EnumEntityID.Player1)	_currentState = _isPlayerState;
+		else _currentState = _nonePlayerState;
 	}
 }
 

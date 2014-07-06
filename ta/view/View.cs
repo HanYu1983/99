@@ -41,6 +41,12 @@ public class View : SenderMono, IView {
 		playPage.DirectionChanged (state, direction);
 	}
 
+	public void OnCurrentPlayerChange(IMatch match, IOption<IPlayer> player){
+		if (!pages.ContainsKey (UIType.PlayPage))	throw new UnityException ("You should at playPage");
+		PlayPage playPage = pages [UIType.PlayPage].GetComponent<PlayPage> ();
+		playPage.OnCurrentPlayerChange (match, player);    
+	}
+
 	public void OpenTargetPage( UIType pn ){
 		if (pages.ContainsKey(pn))	return;
 		GameObject p = null;

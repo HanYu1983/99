@@ -14,6 +14,11 @@ public class CardView : MonoBehaviour {
 		setCard ();
 	}
 
+	public void flip(){
+		if( this.transform.localRotation.y == 180 )	this.transform.localRotation = Quaternion.Euler( new Vector3( 0, 0, 0 ));
+		else this.transform.localRotation = Quaternion.Euler( new Vector3( 0, 180, 0 ));
+	}
+
 	public void setCard(){
 		_txt_name.text = getShowText (_config.cardModel.Number - 1);
 	}

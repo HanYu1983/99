@@ -6,5 +6,6 @@ public interface IView
 	void PushCardToTable( IDeck deck, IDeckPlayer player, ICard card );
 	void GameNumberChanged(IGameState state, int number);
 	void DirectionChanged(IGameState state, Direction direction);
+	void OnCurrentPlayerChange (IMatch match, IOption<IPlayer> player);
 }
 

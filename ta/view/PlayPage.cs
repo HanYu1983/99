@@ -57,10 +57,14 @@ public class PlayPage : SenderMono {
 		go_score.GetComponent<ScoreView> ().GameNumberChanged (state, number);
 	}
 
-	//改變玩家
+	//改變方向
 	public void DirectionChanged(IGameState state, Direction direction){
 		go_score.GetComponent<ScoreView> ().DirectionChanged (state, direction);
-		go_playerBorder.GetComponent<PlayerBorder>().DirectionChanged (state, direction);
+	}
+
+	//改變玩家
+	public void OnCurrentPlayerChange(IMatch match, IOption<IPlayer> player){
+		go_playerBorder.GetComponent<PlayerBorder> ().OnCurrentPlayerChange (match, player);
 	}
 
 	//玩家使用一張牌

@@ -10,6 +10,7 @@ public class HandView : MonoBehaviour{
 	GameObject _currentFocusCardView = null;
 	int _currentFocusId = 999;
 	float _oldY;
+	float _oldZ;
 	float _choiseY;
 	float _normalY;
 	Vector3 _oldScale;
@@ -34,6 +35,14 @@ public class HandView : MonoBehaviour{
 	public void subCard( GameObject card ){
 		_ary_card.Remove (card);
 		replaceCard ();
+	}
+
+	public void flipAllCard(){
+		GameObject c;
+		for( int i = 0; i < _ary_card.Count; ++i ){
+			c = (GameObject)_ary_card[i];
+			iTween.RotateBy( c, iTween.Hash("y", 180, "time", 1));
+		}
 	}
 
 	public void onPlayerMoveCardByPlayPage( float moveY ){
@@ -70,20 +79,25 @@ public class HandView : MonoBehaviour{
 			c = (GameObject)_ary_card[i];
 			tx = i * 300 / ( _ary_card.Count );
 			ty = Mathf.Abs( i - _ary_card.Count / 2 ) * -20;
+			ty = 0;
 			tr = -(( i - _ary_card.Count / 2 ) * 10f );
-			c.transform.localPosition = new Vector3( tx / 100, ty / 100, c.transform.localPosition.z );
-			c.transform.localRotation = Quaternion.Euler( new Vector3( 0, 0, tr ));
+			c.transform.localPosition = new Vector3( tx / 100, ty / 100, -i );
+			//c.transform.localRotation = Quaternion.Euler( new Vector3( 0, 0, tr ));
+			c.transform.localRotation = Quaternion.Euler( new Vector3( 0, 180, 0 ));
 
 			/*
 			iTween.MoveTo(c, iTween.Hash("x", tx / 100 + this.transform.position.x, 
-			                             "y", ty / 100 + this.transform.position.y,
+			                           //  "y", ty / 100 + this.transform.position.y,
 			                             "z", this.transform.position.z - i,
 			                             "easeType", "spring", "loopType", "none", "delay", i * .1, "time", .5));
 			                             */
 			//iTween.FadeTo(c, iTween.Hash("alpha", 0, "time", 0));
 			//iTween.FadeTo(c, iTween.Hash("alpha", 1, "time", 1, "delay", i *.1));
 			//iTween.RotateBy( c, iTween.Hash("z", tr, "easeType", "spring", "loopType", "none", "delay", i * .1, "time", 1));
-			_normalY = c.transform.position.y;
+			if( playerId == (int)EnumEntityID.Player1 ){
+				iTween.RotateBy( c, iTween.Hash("y", .5, "delay", i * .1, "time", 1));
+			}
+			_normalY = c.transform.localPosition.y;
 		}
 	}
 
@@ -93,29 +107,31 @@ public class HandView : MonoBehaviour{
 	}
 
 	void activeFocusAnimation(){
-		//if (_currentFocusId != 999) {
-			for( int i = 0; i < _ary_card.Count; ++i ){
-				GameObject cv = (GameObject)_ary_card[i];
-				Vector3 targetScale;
-				float targetY;
-				_oldScale = cv.transform.localScale;
-				_oldY = cv.transform.position.y;
-				if( i == _currentFocusId ){
-					targetScale = ( _zoomInScale - _oldScale ) * .2f;
-					targetY = ( _choiseY - _oldY ) * .2f;
-					_currentFocusCardView = cv;
-				}else{
-					targetScale = ( _zoomOutScale - _oldScale ) * .2f;
-					targetY = ( _normalY - _oldY ) * .2f;
-				}
-				_oldScale += targetScale;
-				_oldY+= targetY;
-				cv.transform.localScale = _oldScale;
-				cv.transform.position = new Vector3( 	cv.transform.position.x,
-				                                    	_oldY,
-				                                   		cv.transform.position.z );
+		for( int i = 0; i < _ary_card.Count; ++i ){
+			GameObject cv = (GameObject)_ary_card[i];
+			Vector3 targetScale;
+			float targetY;
+			float targetZ;
+			_oldScale = cv.transform.localScale;
+			_oldY = cv.transform.localPosition.y;
+			_oldZ = cv.transform.localPosition.z;
+			if( i == _currentFocusId ){
+				targetScale = ( _zoomInScale - _oldScale ) * .2f;
+				targetY = ( _choiseY - _oldY ) * .2f;
+				targetZ = _oldZ - 5;
+				_currentFocusCardView = cv;
+			}else{
+				targetScale = ( _zoomOutScale - _oldScale ) * .2f;
+				targetY = ( _normalY - _oldY ) * .2f;
+				targetZ = _oldZ;
 			}
-		//}
+			_oldScale += targetScale;
+			_oldY+= targetY;
+			cv.transform.localScale = _oldScale;
+			cv.transform.localPosition = new Vector3( 	cv.transform.localPosition.x,
+			                                    		_oldY,
+			                                   			cv.transform.localPosition.z );
+		}
 	}
 }
 
