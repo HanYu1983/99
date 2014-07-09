@@ -20,6 +20,7 @@ public class CardView : MonoBehaviour {
 	}
 
 	public void setCard(){
+		if (_config.cardModel == null)	return;
 		_txt_name.text = getShowText (_config.cardModel.Number - 1);
 	}
 

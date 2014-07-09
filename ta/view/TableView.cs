@@ -9,6 +9,7 @@ public class TableView : MonoBehaviour {
 	public GameObject handView4;
 	public GameObject putCardToTablePosition;
 	private GameObject _targetView;
+
 	private int _zindex = 0;
 
 	public void PushCardToTable( IDeck deck, IDeckPlayer player, ICard card ){
