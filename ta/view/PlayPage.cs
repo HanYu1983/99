@@ -67,19 +67,6 @@ public class PlayPage : SenderMono {
 		go_playerBorder.GetComponent<PlayerBorder> ().OnCurrentPlayerChange (match, player);
 	}
 
-	//玩家使用一張牌
-	public void SendCard( int playerId, GameObject cardView ){
-		if(cardView != null){
-			iTween.ScaleTo (cardView, iTween.Hash (	"x", 0,
-		    	                                    "y", 0,
-		        	                                "time", 1,
-		            	                           	"oncomplete","onSendCardAniComplete",
-		                	                       	"oncompletetarget", this.gameObject,
-		                    	                   	"oncompleteparams", cardView));
-			_hands[ playerId ].GetComponent<HandView> ().subCard (cardView);
-		}
-	}
-
 	//由border所傳進來的touch Y 事件
 	public void onPlayerMoveCardByBorder( float moveY ){
 		go_hand.GetComponent<HandView> ().onPlayerMoveCardByPlayPage (moveY);
@@ -100,10 +87,27 @@ public class PlayPage : SenderMono {
 		go_hand.GetComponent<HandView> ().onPlayerReleaseCardByPlayPage ();
 	}
 
-	void onSendCardAniComplete( GameObject cv ){
+	//由handView傳來的使用卡片事件，傳給model
+	public void SendCardToModelByHandView( GameObject cardView ){
 		Sender.Receivers.ToList().ForEach( obj => {
-			((IPlayPageDelegate)obj).onPlayPageSendCard( this, cv.GetComponent<CardViewConfig>().cardModel );
+			((IPlayPageDelegate)obj).onPlayPageSendCard( this, cardView.GetComponent<CardViewConfig>().cardModel );
 		});
+	}
+
+	//玩家使用一張牌
+	void SendCard( int playerId, GameObject cardView ){
+		if(cardView != null){
+			iTween.ScaleTo (cardView, iTween.Hash (	"x", 0,
+			                                       "y", 0,
+			                                       "time", 1,
+			                                       "oncomplete","onSendCardAniComplete",
+			                                       "oncompletetarget", this.gameObject,
+			                                       "oncompleteparams", cardView));
+			_hands[ playerId ].GetComponent<HandView> ().subCard (cardView);
+		}
+	}
+
+	void onSendCardAniComplete( GameObject cv ){
 		Destroy (cv);
 	}
 	

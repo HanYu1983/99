@@ -8,6 +8,10 @@ public class StackView : MonoBehaviour {
 	public GameObject handView3;
 	public GameObject handView4;
 
+	void Start(){
+
+	}
+
 	public void dealCard( IDeckPlayer player, ICard card ){
 		GameObject cv = (GameObject)Instantiate (prefabCard, this.transform.position, this.transform.rotation);
 		cv.GetComponent<CardViewConfig> ().cardModel = card;

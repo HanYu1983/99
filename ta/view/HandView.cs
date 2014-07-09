@@ -56,7 +56,7 @@ public class HandView : MonoBehaviour{
 	}
 
 	public void onPlayerSendCardByPlayPage(){
-		playPage.GetComponent<PlayPage> ().SendCard ((int)EnumEntityID.Player1, _currentFocusCardView);
+		playPage.GetComponent<PlayPage>().SendCardToModelByHandView( _currentFocusCardView);
 		onPlayerReleaseCardByPlayPage ();
 	}
 
