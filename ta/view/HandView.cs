@@ -24,8 +24,8 @@ public class HandView : MonoBehaviour{
 		c.transform.parent = this.transform;
 		c.GetComponent<CardViewConfig> ().cardModel = cardModel;
 		c.name = "CardView";
+		if( playerId != (int)EnumEntityID.Player1 )	c.transform.localRotation = Quaternion.Euler( new Vector3( 0, 180, 0 ));
 		_ary_card.Add (c);
-		replaceCard ();
 	}
 
 	public bool hasCard( CardView view ){
@@ -72,38 +72,41 @@ public class HandView : MonoBehaviour{
 		return null;
 	}
 
-	public void replaceCard(){
+	public void flipPlayerAllCard(){
+		/*
 		GameObject c;
 		float tx, ty, tr;
 		for( int i = 0; i < _ary_card.Count; ++i ){
-			c = (GameObject)_ary_card[i];
-			tx = i * 300 / ( _ary_card.Count );
-			ty = Mathf.Abs( i - _ary_card.Count / 2 ) * -20;
-			ty = 0;
-			tr = -(( i - _ary_card.Count / 2 ) * 10f );
-			c.transform.localPosition = new Vector3( tx / 100, ty / 100, -i );
-			//c.transform.localRotation = Quaternion.Euler( new Vector3( 0, 0, tr ));
-			c.transform.localRotation = Quaternion.Euler( new Vector3( 0, 180, 0 ));
-
-			/*
-			iTween.MoveTo(c, iTween.Hash("x", tx / 100 + this.transform.position.x, 
-			                           //  "y", ty / 100 + this.transform.position.y,
-			                             "z", this.transform.position.z - i,
-			                             "easeType", "spring", "loopType", "none", "delay", i * .1, "time", .5));
-			                             */
-			//iTween.FadeTo(c, iTween.Hash("alpha", 0, "time", 0));
-			//iTween.FadeTo(c, iTween.Hash("alpha", 1, "time", 1, "delay", i *.1));
-			//iTween.RotateBy( c, iTween.Hash("z", tr, "easeType", "spring", "loopType", "none", "delay", i * .1, "time", 1));
 			if( playerId == (int)EnumEntityID.Player1 ){
 				iTween.RotateBy( c, iTween.Hash("y", .5, "delay", i * .1, "time", 1));
 			}
 			_normalY = c.transform.localPosition.y;
-		}
+		}*/
 	}
 
 	void Update(){
+		replaceCard ();
 		if( playerId != (int)EnumEntityID.Player1 )	return;
 		activeFocusAnimation ();
+	}
+
+	void replaceCard(){
+		GameObject c;
+		float tx, ty, tr;
+		Vector3 targetPos;
+		Vector3 currentPos;
+		Vector3 movePos;
+		for( int i = 0; i < _ary_card.Count; ++i ){
+			c = (GameObject)_ary_card[i];
+			tx = i * 400 / ( _ary_card.Count ) - 150;
+			ty = Mathf.Abs( i - _ary_card.Count / 2 ) * -20;
+			ty = 0;
+			tr = -(( i - _ary_card.Count / 2 ) * 10f );
+			targetPos = new Vector3( tx / 100, ty / 100, -i );
+			currentPos = c.transform.localPosition;
+			movePos = currentPos + ( targetPos - currentPos ) * .1f;
+			c.transform.localPosition = movePos;
+		}
 	}
 
 	void activeFocusAnimation(){
