@@ -9,11 +9,11 @@ public class SenderMono : ReceiverMono, IEventSender {
 
 	protected override void Start () {
 		_sender.VerifyReceiverDelegate += HandleVerifyReceiverDelegate;
-		base.Start (); // register after add Verify function
+		RegisterToEntityManager ();
 	}
 
 	protected override void OnDestroy(){
-		base.OnDestroy (); // unregister before delete Verify function
+		UnregisterToEntityManager ();
 		_sender.VerifyReceiverDelegate -= HandleVerifyReceiverDelegate;
 	}
 

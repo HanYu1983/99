@@ -24,7 +24,11 @@ public class Match : SenderAdapter, IMatch
 	public IDeck CenterDeck{ get { return _centerDeck; } }
 	public IGameState GameState{ get{ return _gameState; } }
 
-	public void ContinuePlay(){ _matchPhase = MatchPhase.Playing; }
+	public void ContinuePlay(){ 
+		bool isNeedChangePhase = MatchPhase == MatchPhase.Stop;
+		if( isNeedChangePhase )
+			_matchPhase = MatchPhase.Playing; 
+	}
 
 	public void PlayerJoin(IOption<IPlayer> player){
 		player.Map (p =>{p.Match = this;});
@@ -39,7 +43,11 @@ public class Match : SenderAdapter, IMatch
 		set{
 			if(_currentPlayer.Identity != value.Identity ){
 				_currentPlayer = value;
-				_matchPhase = MatchPhase.Stop;
+				bool isNoNeedChangeMatchPhase = MatchPhase == MatchPhase.Idle || MatchPhase == MatchPhase.Stop;
+				if(isNoNeedChangeMatchPhase){
+					// nothing to do
+				}else
+					_matchPhase = MatchPhase.Stop;
 				Sender.Receivers.ToList().ForEach(obj=>{
 					((IMatchDelegate)obj).OnCurrentPlayerChange(this, _currentPlayer);
 				});
@@ -78,6 +86,7 @@ public class Match : SenderAdapter, IMatch
 				});
 			});
 		}
+		_matchPhase = MatchPhase.Playing; // set playing phase before current player change
 		CurrentPlayer = Players [0];
 	}
 	public void EndMatch(){

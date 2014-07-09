@@ -10,6 +10,7 @@ public class Controller :
 	IPlayPageDelegate, 
 	IRankPageDelegate, 
 	IResultPageDelegate,
+	IPlayerDelegate,
 	IDeckDelegate,
 	IMatchDelegate,
 	IGameStateDelegate
@@ -59,7 +60,9 @@ public class Controller :
 		IPlayer p3 = EntityManager.Singleton.Create<Player> ((int)EnumEntityID.Player3);
 		IPlayer p4 = EntityManager.Singleton.Create<Player> ((int)EnumEntityID.Player4);
 
-		p.Controller = EntityManager.Singleton.Create<RealPlayerController> ();
+		RealPlayerController playerController = EntityManager.Singleton.Create<RealPlayerController> ();
+		playerController.IsAutoControlNumber = true;
+		p.Controller = playerController;
 		p2.Controller = EntityManager.Singleton.Create<AIPlayerController> ();
 		p3.Controller = EntityManager.Singleton.Create<AIPlayerController> ();
 		p4.Controller = EntityManager.Singleton.Create<AIPlayerController> ();
@@ -97,6 +100,19 @@ public class Controller :
 	}
 
 	//model----------------------------------------
+	public void OnPlayerWillPushCard(IPlayer player, ICard card){
+	
+	}
+
+	public void OnPlayerWillDrawCard(IPlayer player){
+
+	}
+
+	public void OnPlayerDie(IPlayer player){
+		Debug.Log ("OnPlayerDie "+player.EntityID);
+		_model.EndGame ();
+	}
+
 	public void OnPlayerDraw(IDeck deck, IDeckPlayer player, ICard card){
 		view.AddCard (deck, player, card);
 	}

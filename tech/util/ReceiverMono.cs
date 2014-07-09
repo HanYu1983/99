@@ -22,13 +22,21 @@ public class ReceiverMono : MonoBehaviour, IEntity {
 	public virtual void OnEntityDestroy(IEntityManager mgr){}
 
 	protected virtual void Start(){
+		RegisterToEntityManager ();
+	}
+	
+	protected virtual void OnDestroy(){
+		UnregisterToEntityManager ();
+	}
+
+	protected void RegisterToEntityManager(){
 		EntityComponent entity = GetComponent<EntityComponent> ();
 		if (entity != null) {
 			EntityManager.Singleton.Register(this);
 		}
 	}
-	
-	protected virtual void OnDestroy(){
+
+	protected void UnregisterToEntityManager(){
 		EntityComponent entity = GetComponent<EntityComponent> ();
 		if (entity != null) {
 			EntityManager.Singleton.Unregister(this);

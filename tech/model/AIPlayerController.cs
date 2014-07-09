@@ -3,19 +3,6 @@ using System.Collections;
 
 public class AIPlayerController : PlayerControllerDefaultAdapter, IMatchDelegate, IInjectUpdate
 {
-	IThinking _thinking;
-
-	IThinking Thinking{ 
-		get{
-			if(_thinking == null){
-				AIThinkingData think = new AIThinkingData();
-				think.Match = Owner.Match;
-				_thinking = think;
-			}
-			return _thinking;
-		}
-	}
-
 	public void OnCurrentPlayerChange(IMatch match, IOption<IPlayer> player){
 		if (match == Owner.Match) {
 			bool isTurnToMe = player.Identity == Owner.EntityID;

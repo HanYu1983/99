@@ -11,6 +11,10 @@ public class Model : SenderMono, IModel, IDeckDelegate, ICardAbilityReceiver, IM
 		_match.StartMatch ();
 	}
 
+	public void EndGame(){
+		_match.EndMatch ();
+	}
+
 	public void Step(){
 		_match.ContinuePlay ();
 	}
@@ -42,7 +46,6 @@ public class Model : SenderMono, IModel, IDeckDelegate, ICardAbilityReceiver, IM
 	}
 
 	public void OnPlayerDie(IPlayer player){
-		Debug.Log ("player die " + player.EntityID);
 		_match.EndMatch ();
 	}
 
@@ -53,7 +56,8 @@ public class Model : SenderMono, IModel, IDeckDelegate, ICardAbilityReceiver, IM
 			ICardAbilityReceiver car = _match.GameState as ICardAbilityReceiver;
 			if (car != null) {
 				car.Direction = value;
-			} 
+			}
+			_match.CurrentPlayer = _match.NextPlayer;
 		} 
 	}
 	public void AddNumber(int number){ 
